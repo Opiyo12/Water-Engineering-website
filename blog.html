@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blog & Insights — Baba Engineering Solutions</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><rect width='120' height='120' rx='24' fill='%230f3d25'/><path d='M60 8 C60 8 22 52 22 78 C22 102 39 116 60 116 C81 116 98 102 98 78 C98 52 60 8 60 8Z' fill='%233A9FE8'/><path d='M60 8 C60 8 38 52 38 78 C38 90 43 102 52 110 C37 101 22 90 22 78 C22 52 60 8 60 8Z' fill='white' opacity='.18'/><polygon points='65 28,46 72,62 72,54 112,82 62,64 62,76 28' fill='%23F5A623'/></svg>"/>
+  <meta name="description" content="Expert insights, project stories and engineering tips from Baba Engineering Solutions."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            forest: { 900:'#0a2416', 800:'#0f3d25', 700:'#145230', 600:'#1a5c38', 500:'#2a7a50', 400:'#3d9968', 300:'#5cb885' },
+            gold:   { 600:'#d4820a', 500:'#e8960f', 400:'#f5a623', 300:'#ffc04d', 200:'#ffd88a' },
+            cream: '#faf8f3', stone: '#f0ede6',
+          },
+          fontFamily: { display:['"Playfair Display"','serif'], body:['"DM Sans"','sans-serif'], mono:['"Space Mono"','monospace'] }
+        }
+      }
+    }
+  </script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;color:#2d3a2e;overflow-x:hidden;background:#f7f5f0}
+    ::-webkit-scrollbar{width:5px}
+    ::-webkit-scrollbar-track{background:#f0ede6}
+    ::-webkit-scrollbar-thumb{background:#f5a623;border-radius:3px}
+    #navbar{transition:all .35s ease;background:rgba(10,36,22,.97);backdrop-filter:blur(18px);box-shadow:0 4px 28px rgba(0,0,0,.3)}
+    .nav-link{position:relative}
+    .nav-link::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:2px;background:#f5a623;transition:width .3s ease;border-radius:2px}
+    .nav-link:hover::after,.nav-link.active::after{width:100%}
+    .dropdown-parent:hover .dropdown-menu{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+    .dropdown-menu{opacity:0;visibility:hidden;transform:translateX(-50%) translateY(10px);transition:all .3s ease}
+    #mobile-menu{max-height:0;overflow:hidden;transition:max-height .5s ease}
+    #mobile-menu.open{max-height:700px}
+    .page-hero{background:linear-gradient(160deg,#0f3d25 0%,#1a5c38 45%,#0a2416 100%);position:relative;overflow:hidden}
+    .section-tag{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;display:inline-flex;align-items:center;gap:8px}
+    .section-tag::before{content:'';width:20px;height:2px;background:#f5a623;flex-shrink:0}
+    .gold-text{background:linear-gradient(135deg,#f5a623,#ffc04d);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease}
+    .reveal.visible{opacity:1;transform:none}
+    /* POST CARDS */
+    .post-card{background:#fff;border-radius:20px;overflow:hidden;border:1px solid #e8e4dc;transition:box-shadow .3s ease,transform .3s ease}
+    .post-card:hover{box-shadow:0 16px 48px rgba(10,36,22,.1);transform:translateY(-3px)}
+    .post-card .card-img{overflow:hidden}
+    .post-card .card-img img{transition:transform .5s ease;width:100%;height:100%;object-fit:cover}
+    .post-card:hover .card-img img{transform:scale(1.05)}
+    .featured-card{background:#fff;border-radius:24px;overflow:hidden;border:1px solid #e8e4dc;transition:box-shadow .3s ease}
+    .featured-card:hover{box-shadow:0 20px 60px rgba(10,36,22,.12)}
+    .featured-card .feat-img img{transition:transform .6s ease;width:100%;height:100%;object-fit:cover}
+    .featured-card:hover .feat-img img{transform:scale(1.03)}
+    /* EXPANDABLE */
+    .card-full{max-height:0;overflow:hidden;transition:max-height .55s ease,opacity .4s ease;opacity:0}
+    .card-full.open{max-height:1200px;opacity:1}
+    .read-btn{display:inline-flex;align-items:center;gap:6px;font-weight:600;font-size:13px;color:#1a5c38;transition:color .2s ease;background:none;border:none;cursor:pointer;padding:0;font-family:'DM Sans',sans-serif;user-select:none}
+    .read-btn:hover{color:#0f3d25}
+    .read-btn .arrow-icon{transition:transform .3s ease}
+    .read-btn.open .arrow-icon{transform:rotate(90deg)}
+    .cat-badge{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:99px;font-weight:700;white-space:nowrap}
+    .wa-float{animation:wabounce 2.2s ease infinite}
+    @keyframes wabounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+    #back-top{opacity:0;transform:translateY(18px);transition:all .3s ease;pointer-events:none}
+    #back-top.show{opacity:1;transform:translateY(0);pointer-events:all}
+    .wave-div{display:block;overflow:hidden;line-height:0}
+    .wave-div svg{display:block}
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="bg-forest-900 text-white py-2 text-sm z-50 relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-2">
+    <div class="flex items-center gap-5">
+      <a href="tel:+256793173477" class="flex items-center gap-2 hover:text-gold-400 transition-colors">
+        <svg class="w-3.5 h-3.5 text-gold-400" fill="currentColor" viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+        0793 173 477
+      </a>
+      <a href="mailto:info@babaengineering.com" class="hidden sm:flex items-center gap-2 hover:text-gold-400 transition-colors">
+        <svg class="w-3.5 h-3.5 text-gold-400" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        info@babaengineering.com
+      </a>
+    </div>
+    <span class="hidden sm:block text-forest-300 text-xs">Mon–Fri: 8am–5pm &nbsp;|&nbsp; Sat: 8am–1pm</span>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav id="navbar" class="sticky top-0 z-40 py-3 px-4 sm:px-6">
+  <div class="max-w-7xl mx-auto flex items-center justify-between">
+    <a href="index.html" class="flex-shrink-0">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 180" class="h-10 sm:h-12 w-auto">
+        <defs>
+          <linearGradient id="dg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#7DD6FF"/><stop offset="50%" style="stop-color:#3A9FE8"/><stop offset="100%" style="stop-color:#1B5FAA"/></linearGradient>
+          <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#FFE066"/><stop offset="100%" style="stop-color:#F5821F"/></linearGradient>
+          <filter id="gl"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <g transform="translate(28,18)">
+          <path d="M62 6 C62 6 20 54 20 86 C20 112 39 132 62 132 C85 132 104 112 104 86 C104 54 62 6 62 6Z" fill="url(#dg)"/>
+          <path d="M62 6 C62 6 38 54 38 86 C38 98 43 110 51 119 C36 111 20 100 20 86 C20 54 62 6 62 6Z" fill="white" opacity=".18"/>
+          <polygon points="68,30 47,78 64,78 55,118 84,62 66,62 78,30" fill="url(#bg)" filter="url(#gl)"/>
+        </g>
+        <text x="148" y="90" font-family="'Arial Black',Arial,sans-serif" font-weight="900" font-size="72" fill="#FFFFFF" letter-spacing="3">BABA</text>
+        <text x="150" y="124" font-family="Arial,sans-serif" font-weight="700" font-size="22" fill="#FFFFFF" letter-spacing="6">ENGINEERING</text>
+        <text x="368" y="124" font-family="Arial,sans-serif" font-weight="700" font-size="22" fill="#F5A020" letter-spacing="5">SOLUTIONS</text>
+        <text x="150" y="152" font-family="Arial,sans-serif" font-weight="600" font-size="12" fill="rgba(255,255,255,0.75)" letter-spacing="5">WATER  ·  POWER  ·  CIVIL</text>
+      </svg>
+    </a>
+    <div class="hidden lg:flex items-center gap-7">
+      <a href="index.html"             class="nav-link text-white font-medium text-sm hover:text-gold-400 transition-colors">Home</a>
+      <a href="index.html#about"       class="nav-link text-white font-medium text-sm hover:text-gold-400 transition-colors">About</a>
+      <div class="dropdown-parent relative">
+        <button class="nav-link text-white font-medium text-sm hover:text-gold-400 transition-colors flex items-center gap-1">Services <svg class="w-3.5 h-3.5 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+        <div class="dropdown-menu absolute top-full left-1/2 mt-3 w-[560px] bg-white rounded-2xl shadow-2xl p-5 grid grid-cols-2 gap-2 border border-gray-100">
+          <div class="col-span-2 border-b border-gray-100 pb-3 mb-1 text-xs font-mono text-forest-500 tracking-widest uppercase px-1">Our Services</div>
+          <a href="index.html#services" class="flex items-start gap-3 p-3 rounded-xl hover:bg-forest-600/5 group transition-colors"><span class="text-2xl">⛏</span><div><div class="font-semibold text-forest-800 text-sm group-hover:text-forest-600">Borehole Drilling</div><div class="text-xs text-gray-400">Drilling, Casing, Installation</div></div></a>
+          <a href="index.html#services" class="flex items-start gap-3 p-3 rounded-xl hover:bg-forest-600/5 group transition-colors"><span class="text-2xl">☀️</span><div><div class="font-semibold text-forest-800 text-sm group-hover:text-forest-600">Solar Pump Systems</div><div class="text-xs text-gray-400">Submersible, Surface, Off-grid</div></div></a>
+          <a href="index.html#services" class="flex items-start gap-3 p-3 rounded-xl hover:bg-forest-600/5 group transition-colors"><span class="text-2xl">💧</span><div><div class="font-semibold text-forest-800 text-sm group-hover:text-forest-600">Irrigation Systems</div><div class="text-xs text-gray-400">Drip, Sprinkler, Surface</div></div></a>
+          <a href="index.html#services" class="flex items-start gap-3 p-3 rounded-xl hover:bg-forest-600/5 group transition-colors"><span class="text-2xl">🏗</span><div><div class="font-semibold text-forest-800 text-sm group-hover:text-forest-600">Water Storage Tanks</div><div class="text-xs text-gray-400">Plastic, Concrete, Any size</div></div></a>
+          <a href="index.html#services" class="flex items-start gap-3 p-3 rounded-xl hover:bg-forest-600/5 group transition-colors"><span class="text-2xl">⚙️</span><div><div class="font-semibold text-forest-800 text-sm group-hover:text-forest-600">Water Pumps</div><div class="text-xs text-gray-400">Submersible, Centrifugal, Booster</div></div></a>
+          <a href="index.html#services" class="flex items-start gap-3 p-3 rounded-xl hover:bg-forest-600/5 group transition-colors"><span class="text-2xl">🏢</span><div><div class="font-semibold text-forest-800 text-sm group-hover:text-forest-600">Civil Construction</div><div class="text-xs text-gray-400">Residential, Commercial, Industrial</div></div></a>
+        </div>
+      </div>
+      <a href="index.html#projects"    class="nav-link text-white font-medium text-sm hover:text-gold-400 transition-colors">Projects</a>
+      <a href="index.html#testimonials" class="nav-link text-white font-medium text-sm hover:text-gold-400 transition-colors">Reviews</a>
+      <a href="blog.html"              class="nav-link text-white font-medium text-sm hover:text-gold-400 transition-colors active">Blog</a>
+      <a href="index.html#contact"     class="nav-link text-white font-medium text-sm hover:text-gold-400 transition-colors">Contact</a>
+    </div>
+    <div class="hidden lg:flex items-center gap-3">
+      <a href="tel:+256793173477" class="text-gold-400 font-mono text-xs tracking-wide">0793 173 477</a>
+      <a href="index.html#contact" class="bg-gold-400 hover:bg-gold-300 text-forest-900 font-bold text-sm px-5 py-2.5 rounded-xl transition-all hover:-translate-y-0.5">Get a Quote</a>
+    </div>
+    <button id="hamburger" class="lg:hidden text-white p-2" aria-label="Toggle menu">
+      <div id="h1" class="w-6 h-0.5 bg-white mb-1.5 transition-all duration-300 rounded"></div>
+      <div id="h2" class="w-6 h-0.5 bg-white mb-1.5 transition-all duration-300 rounded"></div>
+      <div id="h3" class="w-6 h-0.5 bg-white transition-all duration-300 rounded"></div>
+    </button>
+  </div>
+  <div id="mobile-menu" class="lg:hidden bg-forest-900/98 backdrop-blur-sm mt-2 rounded-2xl overflow-hidden">
+    <div class="p-5 space-y-1">
+      <a href="index.html"             class="block py-3 px-4 text-white font-medium rounded-xl hover:bg-forest-700 transition-colors">Home</a>
+      <a href="index.html#about"       class="block py-3 px-4 text-white font-medium rounded-xl hover:bg-forest-700 transition-colors">About</a>
+      <a href="index.html#services"    class="block py-3 px-4 text-white font-medium rounded-xl hover:bg-forest-700 transition-colors">Services</a>
+      <a href="index.html#projects"    class="block py-3 px-4 text-white font-medium rounded-xl hover:bg-forest-700 transition-colors">Projects</a>
+      <a href="index.html#testimonials" class="block py-3 px-4 text-white font-medium rounded-xl hover:bg-forest-700 transition-colors">Reviews</a>
+      <a href="blog.html"              class="block py-3 px-4 bg-forest-700 text-gold-400 font-medium rounded-xl">Blog</a>
+      <a href="index.html#contact"     class="block py-3 px-4 text-white font-medium rounded-xl hover:bg-forest-700 transition-colors">Contact</a>
+      <a href="index.html#contact"     class="block mt-2 py-3 px-4 bg-gold-400 text-forest-900 font-bold text-center rounded-xl">Get a Quote →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero pt-16 pb-24 sm:pt-20 sm:pb-28">
+  <div class="max-w-6xl mx-auto px-5 sm:px-6">
+    <div class="flex items-center gap-2 text-white/40 text-xs font-mono mb-6">
+      <a href="index.html" class="hover:text-gold-400 transition-colors">Home</a>
+      <span>›</span>
+      <span class="text-gold-400">Blog</span>
+    </div>
+    <div class="max-w-xl">
+      <div class="section-tag text-gold-400 mb-4">Knowledge Hub</div>
+      <h1 class="font-display text-4xl sm:text-5xl font-black text-white leading-tight mb-4">
+        Insights &amp; <span class="gold-text">Field Notes</span>
+      </h1>
+      <p class="text-white/55 text-base leading-relaxed">
+        Practical engineering knowledge from our teams — boreholes, solar, irrigation, and construction across Uganda.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Wave -->
+<div class="wave-div" style="background:#0a2416">
+  <svg viewBox="0 0 1440 40" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0,20 C360,40 720,0 1080,20 C1260,30 1380,10 1440,20 L1440,40 L0,40 Z" fill="#f7f5f0"/>
+  </svg>
+</div>
+
+<!-- BLOG SECTION -->
+<section class="py-14 sm:py-18" style="background:#f7f5f0">
+  <div class="max-w-6xl mx-auto px-5 sm:px-6">
+    <div class="grid lg:grid-cols-3 gap-10">
+
+      <!-- POSTS -->
+      <div class="lg:col-span-2 space-y-7">
+
+        <!-- FEATURED -->
+        <div class="reveal">
+          <p class="section-tag text-forest-500 mb-4">Featured Article</p>
+          <div class="featured-card shadow-sm">
+            <div class="feat-img h-60 sm:h-72 overflow-hidden relative">
+              <img src="assets/images/borehole.jpg" alt="Borehole depth"
+                   onerror="this.src='https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=900&q=80'"
+                   class="w-full h-full object-cover"/>
+              <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+              <span class="absolute top-4 left-4 bg-gold-400 text-forest-900 cat-badge">Featured</span>
+            </div>
+            <div class="p-6 sm:p-7">
+              <div class="flex flex-wrap items-center gap-3 mb-3">
+                <span class="cat-badge" style="background:#e8f5ee;color:#1a5c38">Water & Boreholes</span>
+                <span class="text-gray-400 text-xs font-mono">Feb 20, 2025 · 6 min read</span>
+              </div>
+              <h2 class="font-display font-bold text-gray-900 text-xl sm:text-2xl leading-snug mb-3">
+                How to Choose the Right Borehole Depth for Your Site in Uganda
+              </h2>
+              <p class="text-gray-500 text-sm leading-relaxed">
+                Borehole depth is one of the most critical decisions in any water project. Drill too shallow and you risk dry wells; too deep and costs escalate unnecessarily.
+              </p>
+              <!-- Full content, hidden initially -->
+              <div class="card-full" id="full-featured">
+                <div class="pt-4 space-y-3 text-gray-500 text-sm leading-relaxed border-t border-gray-100 mt-4">
+                  <p>Our engineers break down the key geological factors, seasonal water table variations, and site assessment techniques used across Uganda's diverse terrain — from the rocky ridges of Kabale to the deep alluvial plains of the north.</p>
+                  <p class="font-semibold text-gray-700">Key factors we assess before drilling:</p>
+                  <ul class="list-disc pl-5 space-y-1.5">
+                    <li>Local geology — rock type, fracture zones, and aquifer depth</li>
+                    <li>Seasonal water table fluctuations (wet vs. dry season measurements)</li>
+                    <li>Nearby boreholes as reference depth guides</li>
+                    <li>Intended usage — domestic (30–80m) vs. community/commercial (80–200m+)</li>
+                    <li>Pump type and required yield per hour</li>
+                  </ul>
+                  <p>A hydrogeological survey before drilling saves an average of 35% on project costs and dramatically reduces the risk of a failed borehole. Never skip the survey — it is the single most important investment in your water project.</p>
+                  <p class="text-xs text-gray-400 font-mono pt-1 border-t border-gray-100">— Baba Engineering Field Team, Kampala</p>
+                </div>
+              </div>
+              <button class="read-btn mt-4" data-target="full-featured">
+                <span class="btn-label">Read More</span>
+                <svg class="w-4 h-4 arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- POST 1 -->
+        <article class="post-card reveal shadow-sm" style="transition-delay:.06s">
+          <div class="sm:flex">
+            <div class="card-img sm:w-48 sm:flex-shrink-0 h-44 sm:h-auto overflow-hidden">
+              <img src="assets/images/s.jpeg" alt="Solar pump"
+                   onerror="this.src='https://images.unsplash.com/photo-1509391366360-2e959784a276?w=500&q=80'"/>
+            </div>
+            <div class="p-5 sm:p-6 flex-1">
+              <div class="flex flex-wrap items-center gap-3 mb-3">
+                <span class="cat-badge" style="background:#fffbeb;color:#b45309">Solar & Energy</span>
+                <span class="text-gray-400 text-xs font-mono">Jan 15, 2025 ·</span>
+              </div>
+              <h3 class="font-display font-bold text-gray-900 text-lg leading-snug mb-2">
+                Solar Pump vs. Diesel Pump: Real Cost Comparison for Ugandan Farmers
+              </h3>
+              <p class="text-gray-500 text-sm leading-relaxed">
+                We ran the numbers for a 5-acre farm in Amuru over last year. Solar wins by a large margin when you factor in fuel, repairs, and downtime.
+              </p>
+              <div class="card-full" id="full-1">
+                <div class="pt-4 space-y-3 text-gray-500 text-sm leading-relaxed border-t border-gray-100 mt-4">
+                  <p> A diesel pump setup for a 5-acre farm costs approximately UGX 28–34 million including fuel and repairs. A comparable solar system costs UGX 18–22 million installed — with near-zero running costs after that.</p>
+                  <p class="font-semibold text-gray-700">Cost breakdown:</p>
+                  <ul class="list-disc pl-5 space-y-1">
+                    <li>Diesel: ~UGX 4.2M/year fuel + UGX 800K/year repairs</li>
+                    <li>Solar: Zero fuel cost, ~UGX 150K/year maintenance</li>
+                    <li>Break-even: typically 18–24 months after installation</li>
+                  </ul>
+                  <p>If you plan to farm for more than 2 years, solar is the clear winner financially and operationally for Uganda's climate and fuel supply situation.</p>
+                </div>
+              </div>
+              <button class="read-btn mt-4" data-target="full-1">
+                <span class="btn-label">Read More</span>
+                <svg class="w-4 h-4 arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- POST 2 -->
+        <article class="post-card reveal shadow-sm" style="transition-delay:.12s">
+          <div class="sm:flex">
+            <div class="card-img sm:w-48 sm:flex-shrink-0 h-44 sm:h-auto overflow-hidden">
+              <img src="assets/images/irrigation.png" alt="Irrigation"
+                   onerror="this.src='https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=500&q=80'"/>
+            </div>
+            <div class="p-5 sm:p-6 flex-1">
+              <div class="flex flex-wrap items-center gap-3 mb-3">
+                <span class="cat-badge" style="background:#eff6ff;color:#1d4ed8">Irrigation</span>
+                <span class="text-gray-400 text-xs font-mono">Jan 8, 2025 · 4 min</span>
+              </div>
+              <h3 class="font-display font-bold text-gray-900 text-lg leading-snug mb-2">
+                Drip vs. Sprinkler Irrigation: Which Is Right for Your Ugandan Farm?
+              </h3>
+              <p class="text-gray-500 text-sm leading-relaxed">
+                Crop type, terrain, and water source all determine which system delivers the best yield improvement across East African conditions.
+              </p>
+              <div class="card-full" id="full-2">
+                <div class="pt-4 space-y-3 text-gray-500 text-sm leading-relaxed border-t border-gray-100 mt-4">
+                  <p><span class="font-semibold text-gray-700">Drip irrigation</span> works best for row crops (tomatoes, onions, capsicum, beans) and situations where water is scarce. It delivers water directly to the root zone, reducing waste by up to 60% vs. sprinklers.</p>
+                  <p><span class="font-semibold text-gray-700">Sprinkler systems</span> are better for lawns, pastures, leafy greens, and open fields where uniform coverage matters. They need higher pressure but cover ground faster.</p>
+                  <p>Our recommendation for most smallholder farms: start with drip for high-value crops, add sprinklers for pasture. A hybrid system typically gives the best ROI within the first growing season.</p>
+                </div>
+              </div>
+              <button class="read-btn mt-4" data-target="full-2">
+                <span class="btn-label">Read More</span>
+                <svg class="w-4 h-4 arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- POST 3 -->
+        <article class="post-card reveal shadow-sm" style="transition-delay:.18s">
+          <div class="sm:flex">
+            <div class="card-img sm:w-48 sm:flex-shrink-0 h-44 sm:h-auto overflow-hidden">
+              <img src="assets/images/pumping.png" alt="Pumping station"
+                   onerror="this.src='https://images.unsplash.com/photo-1581094271901-8022df4466f9?w=500&q=80'"/>
+            </div>
+            <div class="p-5 sm:p-6 flex-1">
+              <div class="flex flex-wrap items-center gap-3 mb-3">
+                <span class="cat-badge" style="background:#f0fdf4;color:#166534">Project Story</span>
+                <span class="text-gray-400 text-xs font-mono">Dec 20, 2024 · 3 min</span>
+              </div>
+              <h3 class="font-display font-bold text-gray-900 text-lg leading-snug mb-2">
+                How We Built a Pumping Station for 2000 People in Kitgum in Just 6 Weeks
+              </h3>
+              <p class="text-gray-500 text-sm leading-relaxed">
+                From site survey to commissioning in 6 weeks — a behind-the-scenes look at how our team delivered a large-scale community water system.
+              </p>
+              <div class="card-full" id="full-3">
+                <div class="pt-4 space-y-3 text-gray-500 text-sm leading-relaxed border-t border-gray-100 mt-4">
+                  <p>The project involved drilling two boreholes to 120m depth, installing solar-powered submersibles with a 10,000L elevated storage tank, and laying 2.4km of HDPE distribution piping to 12 villages.</p>
+                  <p class="font-semibold text-gray-700">6-week timeline:</p>
+                  <ul class="list-disc pl-5 space-y-1">
+                    <li>Week 1–2: Hydrogeological survey and borehole siting</li>
+                    <li>Week 2–3: Drilling and casing (both boreholes)</li>
+                    <li>Week 3–4: Tank foundation, elevated structure, pump installation</li>
+                    <li>Week 4–6: Pipeline, connections, water quality testing, handover</li>
+                  </ul>
+                  <p>The system now supplies over 3,000 residents at UGX 200 per 20L jerrycan — down from the previous vendor price of UGX 800–1,200.</p>
+                </div>
+              </div>
+              <button class="read-btn mt-4" data-target="full-3">
+                <span class="btn-label">Read More</span>
+                <svg class="w-4 h-4 arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- POST 4 -->
+        <article class="post-card reveal shadow-sm" style="transition-delay:.24s">
+          <div class="sm:flex">
+            <div class="card-img sm:w-48 sm:flex-shrink-0 h-44 sm:h-auto overflow-hidden">
+              <img src="assets/images/water-tank.png" alt="Water tank"
+                   onerror="this.src='https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500&q=80'"/>
+            </div>
+            <div class="p-5 sm:p-6 flex-1">
+              <div class="flex flex-wrap items-center gap-3 mb-3">
+                <span class="cat-badge" style="background:#f0fdfa;color:#0f766e">Tips & Guides</span>
+                <span class="text-gray-400 text-xs font-mono">Dec 5, 2024 · 5 min</span>
+              </div>
+              <h3 class="font-display font-bold text-gray-900 text-lg leading-snug mb-2">
+                5 Signs Your Water Tank Needs Urgent Cleaning or Replacement
+              </h3>
+              <p class="text-gray-500 text-sm leading-relaxed">
+                Neglected tanks are a leading cause of waterborne disease in Uganda. Learn what our technicians look for when servicing residential and commercial tanks.
+              </p>
+              <div class="card-full" id="full-4">
+                <div class="pt-4 space-y-3 text-gray-500 text-sm leading-relaxed border-t border-gray-100 mt-4">
+                  <p>Our technicians have inspected over 800 tanks across Kampala and Central Uganda. The 5 most common warning signs:</p>
+                  <ol class="list-decimal pl-5 space-y-1.5">
+                    <li><span class="font-semibold text-gray-700">Discoloured water</span> — brown, green or cloudy indicates algae, rust or sediment</li>
+                    <li><span class="font-semibold text-gray-700">Unusual smell or taste</span> — sulphur or organic smell signals contamination</li>
+                    <li><span class="font-semibold text-gray-700">Visible cracks or leaks</span> — even hairline cracks allow insects and debris entry</li>
+                    <li><span class="font-semibold text-gray-700">Slimy interior walls</span> — biofilm that can harbour E. coli and other bacteria</li>
+                    <li><span class="font-semibold text-gray-700">Tank age over 10 years</span> — plastic tanks degrade and leach compounds after a decade</li>
+                  </ol>
+                  <p>We recommend professional cleaning every 6 months and a full inspection annually. Call us for a free tank assessment.</p>
+                </div>
+              </div>
+              <button class="read-btn mt-4" data-target="full-4">
+                <span class="btn-label">Read More</span>
+                <svg class="w-4 h-4 arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+              </button>
+            </div>
+          </div>
+        </article>
+
+      </div><!-- /posts -->
+
+      <!-- SIDEBAR -->
+      <aside class="space-y-5 lg:pt-0">
+
+        <!-- About -->
+        <div class="reveal bg-forest-900 rounded-2xl p-6 text-white">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4" style="background:rgba(245,166,35,.15)">
+            <svg class="w-5 h-5 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          </div>
+          <h4 class="font-display font-bold text-white text-base mb-2">About This Blog</h4>
+          <p class="text-white/50 text-sm leading-relaxed mb-4">Practical, Uganda-specific engineering insights written by our field teams. No fluff — just actionable guidance.</p>
+          <a href="index.html#about" class="inline-flex items-center gap-2 text-gold-400 hover:text-gold-300 font-semibold text-sm transition-colors">
+            More About Us <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+        </div>
+
+        <!-- Search -->
+        <div class="reveal bg-white rounded-2xl p-5 shadow-sm border border-stone" style="transition-delay:.05s">
+          <h4 class="font-semibold text-gray-800 text-sm mb-3">Search Articles</h4>
+          <div class="relative">
+            <input type="text" placeholder="Search topics…" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 pr-10 text-sm outline-none focus:border-forest-500 transition-colors"/>
+            <button class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-forest-600 transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Newsletter -->
+        <div class="reveal bg-white rounded-2xl p-5 shadow-sm border border-stone" style="transition-delay:.1s" id="newsletter-box">
+          <div class="text-2xl mb-2">📬</div>
+          <h4 class="font-semibold text-gray-800 text-sm mb-1">Get New Articles First</h4>
+          <p class="text-gray-400 text-xs leading-relaxed mb-3">Monthly engineering insights from our field teams. No spam.</p>
+
+          <!-- Input form -->
+          <div id="newsletter-form">
+            <div class="relative mb-1">
+              <input
+                type="email"
+                id="newsletter-email"
+                placeholder="Your email address"
+                class="w-full border-2 border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none transition-colors"
+                style="font-family:'DM Sans',sans-serif"
+              />
+            </div>
+            <!-- Validation message -->
+            <p id="newsletter-error" class="text-xs mb-2 hidden" style="color:#dc2626"></p>
+            <button
+              id="newsletter-btn"
+              onclick="handleSubscribe()"
+              class="w-full text-white font-bold py-2.5 rounded-xl transition-all text-sm flex items-center justify-center gap-2"
+              style="background:#145230"
+            >
+              <span id="newsletter-btn-text">Subscribe Free</span>
+              <svg id="newsletter-spinner" class="w-4 h-4 hidden animate-spin" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="white" stroke-width="4"/>
+                <path class="opacity-75" fill="white" d="M4 12a8 8 0 018-8v8z"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Success state (hidden until subscribed) -->
+          <div id="newsletter-success" class="hidden text-center py-2">
+            <div class="text-3xl mb-2">🎉</div>
+            <p class="font-semibold text-gray-800 text-sm mb-1">You're in!</p>
+            <p class="text-gray-400 text-xs">Check your inbox for a confirmation. We'll be in touch monthly.</p>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="reveal rounded-2xl p-5 border" style="background:#fffdf7;border-color:#f0e8d0;transition-delay:.15s">
+          <div class="text-3xl mb-2">🔧</div>
+          <h4 class="font-semibold text-gray-800 text-sm mb-1">Have a Project in Mind?</h4>
+          <p class="text-gray-500 text-xs leading-relaxed mb-4">Free site assessment and no-obligation quote from our engineers.</p>
+          <a href="index.html#contact" class="w-full inline-flex items-center justify-center gap-2 bg-forest-700 hover:bg-forest-800 text-white font-bold py-2.5 rounded-xl transition-all text-sm mb-2">
+            Get a Free Quote →
+          </a>
+          <a href="tel:+256793173477" class="w-full inline-flex items-center justify-center gap-2 border border-gray-200 text-gray-600 hover:border-forest-500 hover:text-forest-600 font-semibold py-2.5 rounded-xl transition-all text-xs">
+            📞 0793 173 477
+          </a>
+        </div>
+
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-forest-900 text-white pt-14 pb-8">
+  <div class="max-w-7xl mx-auto px-5 sm:px-6">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 sm:gap-12 mb-12">
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 180" class="h-10 w-auto mb-4">
+          <defs><linearGradient id="dg2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#7DD6FF"/><stop offset="50%" style="stop-color:#3A9FE8"/><stop offset="100%" style="stop-color:#1B5FAA"/></linearGradient><linearGradient id="bg2" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#FFE066"/><stop offset="100%" style="stop-color:#F5821F"/></linearGradient></defs>
+          <g transform="translate(28,18)"><path d="M62 6 C62 6 20 54 20 86 C20 112 39 132 62 132 C85 132 104 112 104 86 C104 54 62 6 62 6Z" fill="url(#dg2)"/><polygon points="68,30 47,78 64,78 55,118 84,62 66,62 78,30" fill="url(#bg2)"/></g>
+          <text x="148" y="90" font-family="'Arial Black',Arial,sans-serif" font-weight="900" font-size="72" fill="#FFFFFF" letter-spacing="3">BABA</text>
+          <text x="150" y="124" font-family="Arial,sans-serif" font-weight="700" font-size="22" fill="#FFFFFF" letter-spacing="6">ENGINEERING</text>
+          <text x="368" y="124" font-family="Arial,sans-serif" font-weight="700" font-size="22" fill="#F5A020" letter-spacing="5">SOLUTIONS</text>
+          <text x="150" y="152" font-family="Arial,sans-serif" font-weight="600" font-size="12" fill="rgba(255,255,255,0.75)" letter-spacing="5">WATER  ·  POWER  ·  CIVIL</text>
+        </svg>
+        <p class="text-forest-300 text-sm leading-relaxed mb-5">Delivering sustainable water, power and civil engineering solutions across Uganda.</p>
+        <div class="flex gap-2.5">
+          <a href="#" class="w-9 h-9 bg-forest-700 hover:bg-gold-400 rounded-lg flex items-center justify-center text-white hover:text-forest-900 transition-all"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+          <a href="https://wa.me/256793173477" target="_blank" class="w-9 h-9 bg-forest-700 hover:bg-[#25D366] rounded-lg flex items-center justify-center text-white transition-all"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h4 class="font-display font-bold text-gold-400 text-base mb-4">Quick Links</h4>
+        <ul class="space-y-2.5">
+          <li><a href="index.html"             class="text-forest-300 hover:text-white transition-colors text-sm flex items-center gap-2"><span class="text-gold-400 text-xs">→</span>Home</a></li>
+          <li><a href="index.html#about"       class="text-forest-300 hover:text-white transition-colors text-sm flex items-center gap-2"><span class="text-gold-400 text-xs">→</span>About Us</a></li>
+          <li><a href="index.html#services"    class="text-forest-300 hover:text-white transition-colors text-sm flex items-center gap-2"><span class="text-gold-400 text-xs">→</span>Services</a></li>
+          <li><a href="index.html#projects"    class="text-forest-300 hover:text-white transition-colors text-sm flex items-center gap-2"><span class="text-gold-400 text-xs">→</span>Projects</a></li>
+          <li><a href="blog.html"              class="text-gold-400 font-semibold text-sm flex items-center gap-2"><span class="text-gold-400 text-xs">→</span>Blog</a></li>
+          <li><a href="index.html#contact"     class="text-forest-300 hover:text-white transition-colors text-sm flex items-center gap-2"><span class="text-gold-400 text-xs">→</span>Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-display font-bold text-gold-400 text-base mb-4">Our Services</h4>
+        <ul class="space-y-2.5">
+          <li><a href="index.html#services" class="text-forest-300 hover:text-white transition-colors text-sm flex items-center gap-2"><span class="text-gold-400 text-xs">→</span>Borehole Drilling</a></li>
+          <li><a href="index.html#services" class="text-forest-300 hover:text-white transition-colors text-sm flex items-center gap-2"><span class="text-gold-400 text-xs">→</span>Solar Pump Systems</a></li>
+          <li><a href="index.html#services" class="text-forest-300 hover:text-white transition-colors text-sm flex items-center gap-2"><span class="text-gold-400 text-xs">→</span>Irrigation Systems</a></li>
+          <li><a href="index.html#services" class="text-forest-300 hover:text-white transition-colors text-sm flex items-center gap-2"><span class="text-gold-400 text-xs">→</span>Water Storage Tanks</a></li>
+          <li><a href="index.html#services" class="text-forest-300 hover:text-white transition-colors text-sm flex items-center gap-2"><span class="text-gold-400 text-xs">→</span>Civil Construction</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-display font-bold text-gold-400 text-base mb-4">Contact</h4>
+        <div class="space-y-3 text-sm">
+          <div class="flex items-center gap-2 text-forest-300"><svg class="w-4 h-4 text-gold-400 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg><a href="tel:+256793173477" class="hover:text-white transition-colors">0793 173 477</a></div>
+          <div class="flex items-center gap-2 text-forest-300"><svg class="w-4 h-4 text-gold-400 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><a href="mailto:info@babaengineering.com" class="hover:text-white transition-colors">info@babaengineering.com</a></div>
+          <div class="flex items-start gap-2 text-forest-300"><svg class="w-4 h-4 text-gold-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Kampala, Uganda</div>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-forest-700 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm">
+      <div class="text-forest-400">© 2025 <span class="text-white">Baba Engineering Solutions</span>. All Rights Reserved.</div>
+      <div class="flex gap-5"><a href="#" class="text-forest-400 hover:text-white transition-colors">Privacy Policy</a><a href="#" class="text-forest-400 hover:text-white transition-colors">Terms of Service</a></div>
+    </div>
+  </div>
+</footer>
+
+<!-- WhatsApp Float -->
+<a href="https://wa.me/256793173477?text=Hello%2C%20I%27d%20like%20to%20inquire%20about%20Baba%20Engineering%20services." target="_blank" rel="noopener"
+   class="wa-float fixed bottom-24 right-4 sm:right-5 z-50 w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform group" aria-label="WhatsApp">
+  <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  <div class="absolute right-16 bg-forest-900 text-white text-xs px-3 py-1.5 rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">Chat on WhatsApp</div>
+</a>
+
+<!-- Back to Top -->
+<button id="back-top" class="fixed bottom-5 right-4 sm:right-5 z-50 w-12 h-12 bg-forest-700 hover:bg-forest-800 text-white rounded-full flex items-center justify-center shadow-lg hover:-translate-y-1 transition-all" aria-label="Back to top">
+  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+</button>
+
+<script>
+// MOBILE MENU
+const hamburger=document.getElementById('hamburger'),mobileMenu=document.getElementById('mobile-menu');
+let menuOpen=false;
+hamburger.addEventListener('click',()=>{
+  menuOpen=!menuOpen;
+  mobileMenu.classList.toggle('open',menuOpen);
+  document.getElementById('h1').style.transform=menuOpen?'rotate(45deg) translate(5px,5px)':'';
+  document.getElementById('h2').style.opacity=menuOpen?'0':'1';
+  document.getElementById('h3').style.transform=menuOpen?'rotate(-45deg) translate(5px,-5px)':'';
+  document.body.style.overflow=menuOpen?'hidden':'';
+});
+mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+  menuOpen=false;mobileMenu.classList.remove('open');
+  ['h1','h2','h3'].forEach(id=>{const el=document.getElementById(id);el.style.transform='';el.style.opacity='1';});
+  document.body.style.overflow='';
+}));
+
+// SCROLL REVEAL
+const revObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');revObs.unobserve(e.target);}});
+},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
+
+// BACK TO TOP
+const backTop=document.getElementById('back-top');
+window.addEventListener('scroll',()=>backTop.classList.toggle('show',window.scrollY>400));
+backTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+// NEWSLETTER SUBSCRIBE
+function handleSubscribe() {
+  const emailInput = document.getElementById('newsletter-email');
+  const errorEl    = document.getElementById('newsletter-error');
+  const btn        = document.getElementById('newsletter-btn');
+  const btnText    = document.getElementById('newsletter-btn-text');
+  const spinner    = document.getElementById('newsletter-spinner');
+  const form       = document.getElementById('newsletter-form');
+  const success    = document.getElementById('newsletter-success');
+
+  const email = emailInput.value.trim();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  // Reset state
+  errorEl.classList.add('hidden');
+  errorEl.textContent = '';
+  emailInput.style.borderColor = '#e5e7eb';
+
+  // Validation — empty
+  if (!email) {
+    errorEl.textContent = 'Please enter your email address to subscribe.';
+    errorEl.classList.remove('hidden');
+    emailInput.style.borderColor = '#dc2626';
+    emailInput.focus();
+    return;
+  }
+
+  // Validation — invalid format
+  if (!emailRegex.test(email)) {
+    errorEl.textContent = 'That doesn\'t look like a valid email. Please check and try again.';
+    errorEl.classList.remove('hidden');
+    emailInput.style.borderColor = '#dc2626';
+    emailInput.focus();
+    return;
+  }
+
+  // Valid — show loading state
+  btnText.textContent = 'Subscribing...';
+  spinner.classList.remove('hidden');
+  btn.disabled = true;
+  btn.style.opacity = '0.75';
+  btn.style.cursor = 'not-allowed';
+
+ // Temporary subscription success (Brevo removed to avoid exposing API key)
+
+setTimeout(() => {
+
+    btnText.textContent = 'Subscribe Free';
+    spinner.classList.add('hidden');
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.style.cursor = 'pointer';
+
+    // Show success
+    form.classList.add('hidden');
+    success.classList.remove('hidden');
+
+  }, 800);
+}
+
+
+// Allow Enter key on email input
+document.getElementById('newsletter-email').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') handleSubscribe();
+});
+
+// Clear error when user starts typing again
+document.getElementById('newsletter-email').addEventListener('input', function() {
+  const errorEl = document.getElementById('newsletter-error');
+  errorEl.classList.add('hidden');
+  this.style.borderColor = '#e5e7eb';
+});
+document.querySelectorAll('.read-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const full=document.getElementById(btn.dataset.target);
+    const label=btn.querySelector('.btn-label');
+    const isOpen=full.classList.contains('open');
+    full.classList.toggle('open',!isOpen);
+    btn.classList.toggle('open',!isOpen);
+    label.textContent=isOpen?'Read More':'Show Less';
+    if(!isOpen){
+      setTimeout(()=>{
+        const card=btn.closest('.post-card,.featured-card');
+        if(card) card.scrollIntoView({behavior:'smooth',block:'nearest'});
+      },120);
+    }
+  });
+});
+</script>
+</body>
+</html>

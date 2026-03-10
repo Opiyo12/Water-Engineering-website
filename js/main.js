@@ -18,7 +18,7 @@ const heroData = [
 
 const slideImgs = [
   'assets/images/boreholes.jpg',
-  'assets/images/solarpump.png',
+  'assets/images/solarcheck.png',
   'assets/images/irrigation.png',
   'assets/images/water-tank.png',
   'assets/images/building.png',
