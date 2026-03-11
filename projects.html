@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Projects — Baba Engineering Solutions</title>
+  <meta name="description" content="Real engineering projects across Uganda — borehole drilling, solar pumps, irrigation, water tanks and civil construction."/>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><rect width='120' height='120' rx='24' fill='%230f3d25'/><path d='M60 8 C60 8 22 52 22 78 C22 102 39 116 60 116 C81 116 98 102 98 78 C98 52 60 8 60 8Z' fill='%233A9FE8'/><polygon points='65 28,46 72,62 72,54 112,82 62,64 62,76 28' fill='%23F5A623'/></svg>"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config={theme:{extend:{colors:{forest:{900:'#0a2416',800:'#0f3d25',700:'#145230',600:'#1a5c38',500:'#2a7a50',400:'#3d9968',300:'#5cb885'},gold:{600:'#d4820a',500:'#e8960f',400:'#f5a623',300:'#ffc04d',200:'#ffd88a'},cream:'#faf8f3',stone:'#f0ede6'},fontFamily:{display:['"Playfair Display"','serif'],body:['"DM Sans"','sans-serif'],mono:['"Space Mono"','monospace']}}}}
+  </script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;color:#1a1a1a;background:#faf8f3;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:#0a2416}::-webkit-scrollbar-thumb{background:#f5a623;border-radius:3px}
+
+    /* LOADER */
+    #loader{position:fixed;inset:0;background:radial-gradient(ellipse at 60% 40%,#0f3d25 0%,#0a2416 55%,#061610 100%);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;transition:opacity .7s ease,transform .7s ease}
+    #loader.hide{opacity:0;pointer-events:none;transform:scale(1.04)}
+    #loader::before{content:'';position:absolute;width:520px;height:520px;border-radius:50%;border:1px solid rgba(245,166,35,.07);top:50%;left:50%;transform:translate(-50%,-50%)}
+    #loader::after{content:'';position:absolute;width:320px;height:320px;border-radius:50%;border:1px solid rgba(245,166,35,.1);top:50%;left:50%;transform:translate(-50%,-50%)}
+    .llo-wrap{position:relative;display:flex;align-items:center;justify-content:center;margin-bottom:28px}
+    .llo-ring{position:absolute;width:128px;height:128px;border-radius:50%;border:2px solid rgba(245,166,35,.15);border-top-color:#f5a623;animation:spin 1.1s linear infinite}
+    .llo-ring2{position:absolute;width:108px;height:108px;border-radius:50%;border:1px solid rgba(61,153,104,.25);border-bottom-color:#3d9968;animation:spin 1.8s linear infinite reverse}
+    .llo-icon{width:72px;height:72px;z-index:1;filter:drop-shadow(0 0 18px rgba(245,166,35,.45));animation:lpulse 2.2s ease infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    @keyframes lpulse{0%,100%{filter:drop-shadow(0 0 12px rgba(245,166,35,.35))}50%{filter:drop-shadow(0 0 28px rgba(245,166,35,.7))}}
+    .llo-name{font-family:'Playfair Display',serif;font-size:32px;font-weight:900;color:#fff;letter-spacing:6px;text-align:center;opacity:0;animation:fadeUp .8s ease .3s forwards}
+    .llo-sub{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:5px;color:#f5a623;margin-top:7px;text-align:center;opacity:0;animation:fadeUp .8s ease .5s forwards}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+    .lbar-wrap{width:180px;height:2px;background:rgba(255,255,255,.08);border-radius:2px;margin-top:36px;overflow:hidden;opacity:0;animation:fadeUp .6s ease .9s forwards}
+    .lbar{height:100%;width:0;background:linear-gradient(90deg,#1a5c38,#f5a623);border-radius:2px;animation:lprog 1.8s ease 1s forwards}
+    @keyframes lprog{0%{width:0}60%{width:75%}85%{width:90%}100%{width:100%}}
+
+    /* NAVBAR */
+    #navbar{transition:all .35s ease}
+    #navbar.scrolled{background:rgba(10,36,22,.97)!important;backdrop-filter:blur(18px);box-shadow:0 4px 28px rgba(0,0,0,.38)}
+    .nav-link{position:relative}
+    .nav-link::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:2px;background:#f5a623;transition:width .3s ease;border-radius:2px}
+    .nav-link:hover::after,.nav-link.active::after{width:100%}
+    .dropdown-parent:hover .dropdown-menu{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+    .dropdown-menu{opacity:0;visibility:hidden;transform:translateX(-50%) translateY(10px);transition:all .3s ease}
+    #mobile-menu{max-height:0;overflow:hidden;transition:max-height .5s ease}
+    #mobile-menu.open{max-height:700px}
+
+    /* HERO */
+    .page-hero{min-height:540px;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding-top:9rem}
+    .ph-bg{position:absolute;inset:0}
+    .ph-bg img{width:100%;height:100%;object-fit:cover}
+    .ph-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(8,24,14,.94) 0%,rgba(10,36,22,.80) 50%,rgba(10,36,22,.55) 100%)}
+
+    /* SECTION TAG */
+    .stag{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;display:inline-flex;align-items:center;gap:8px}
+    .stag::before{content:'';width:22px;height:2px;flex-shrink:0}
+    .stag-green{color:#2a7a50}.stag-green::before{background:#f5a623}
+    .stag-amber{color:#b45309}.stag-amber::before{background:#d97706}
+    .stag-blue{color:#1d4ed8}.stag-blue::before{background:#3b82f6}
+    .stag-gray{color:#6b7280}.stag-gray::before{background:#9ca3af}
+    .stag-slate{color:#94a3b8}.stag-slate::before{background:#64748b}
+    .gold-text{background:linear-gradient(135deg,#f5a623,#ffc04d);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+    /* PROJECT CARDS */
+    .pcard{position:relative;overflow:hidden;border-radius:1.5rem;display:block;text-decoration:none;transition:transform .35s ease,box-shadow .35s ease;box-shadow:0 2px 18px rgba(0,0,0,.07)}
+    .pcard:hover{transform:translateY(-6px);box-shadow:0 28px 60px rgba(0,0,0,.16)}
+    .pcard img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease;position:absolute;inset:0}
+    .pcard:hover img{transform:scale(1.06)}
+    .pcard-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,18,12,.92) 0%,rgba(8,18,12,.12) 58%,transparent 100%);transition:opacity .3s}
+    .pcard:hover .pcard-ov{opacity:.94}
+    .pcard-body{position:absolute;bottom:0;left:0;right:0;padding:1.4rem 1.6rem}
+    .ptag{display:inline-block;font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;padding:.25rem .75rem;border-radius:9999px;border:1px solid;margin-bottom:.55rem;backdrop-filter:blur(8px)}
+
+    /* WHITE STORY CARDS */
+    .scard{background:#fff;border-radius:1.5rem;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,.06);transition:transform .3s ease,box-shadow .3s ease}
+    .scard:hover{transform:translateY(-5px);box-shadow:0 20px 48px rgba(0,0,0,.1)}
+    .scard-img{overflow:hidden;aspect-ratio:16/9}
+    .scard-img img{width:100%;height:100%;object-fit:cover;transition:transform .55s ease}
+    .scard:hover .scard-img img{transform:scale(1.05)}
+
+    /* REVEAL */
+    .reveal{opacity:0;transform:translateY(36px);transition:opacity .75s ease,transform .75s ease}
+    .reveal.visible{opacity:1;transform:none}
+    .d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
+
+    #back-top{opacity:0;transform:translateY(18px);transition:all .3s ease;pointer-events:none}
+    #back-top.show{opacity:1;transform:translateY(0);pointer-events:all}
+    .wa-float{animation:wab 2.2s ease infinite}
+    @keyframes wab{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  </style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="llo-wrap">
+    <div class="llo-ring"></div><div class="llo-ring2"></div>
+    <svg class="llo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+      <defs>
+        <linearGradient id="ldg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#7DD6FF"/><stop offset="50%" style="stop-color:#3A9FE8"/><stop offset="100%" style="stop-color:#1B5FAA"/></linearGradient>
+        <linearGradient id="lbg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#FFE066"/><stop offset="100%" style="stop-color:#F5821F"/></linearGradient>
+        <filter id="lgl"><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <path d="M60 6C60 6 18 52 18 80C18 106 37 118 60 118C83 118 102 106 102 80C102 52 60 6 60 6Z" fill="url(#ldg)"/>
+      <path d="M60 6C60 6 36 52 36 80C36 93 41 106 52 114C36 105 18 93 18 80C18 52 60 6 60 6Z" fill="white" opacity=".18"/>
+      <polygon points="66 26,45 74,62 74,53 114,84 60,65 60,78 26" fill="url(#lbg)" filter="url(#lgl)"/>
+    </svg>
+  </div>
+  <div class="llo-name">BABA</div>
+  <div class="llo-sub">ENGINEERING &nbsp;·&nbsp; SOLUTIONS</div>
+  <div class="lbar-wrap"><div class="lbar"></div></div>
+</div>
+
+<!-- TOP BAR -->
+<div class="bg-forest-900 text-white py-2 text-sm z-50 relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-2">
+    <div class="flex items-center gap-5">
+      <a href="tel:+256793173477" class="flex items-center gap-2 hover:text-gold-400 transition-colors">
+        <svg class="w-3.5 h-3.5 text-gold-400 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>0793 173 477
+      </a>
+      <a href="mailto:info@babaengineering.com" class="hidden sm:flex items-center gap-2 hover:text-gold-400 transition-colors">
+        <svg class="w-3.5 h-3.5 text-gold-400 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>info@babaengineering.com
+      </a>
+    </div>
+    <div class="flex items-center gap-4">
+      <span class="hidden sm:block text-forest-300 text-xs">Mon–Fri: 8am–5pm &nbsp;|&nbsp; Sat: 8am–1pm</span>
+      <div class="flex gap-3">
+        <a href="#" class="text-gray-400 hover:text-gold-400 transition-colors" aria-label="Facebook"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+        <a href="https://wa.me/256793173477" target="_blank" class="text-gray-400 hover:text-gold-400 transition-colors" aria-label="WhatsApp"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav id="navbar" class="fixed top-8 left-0 right-0 z-40 py-3 px-4 sm:px-6">
+  <div class="max-w-7xl mx-auto flex items-center justify-between">
+    <a href="index.html" class="flex-shrink-0">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 180" class="h-10 sm:h-12 md:h-14 w-auto">
+        <defs>
+          <linearGradient id="dg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#7DD6FF"/><stop offset="50%" style="stop-color:#3A9FE8"/><stop offset="100%" style="stop-color:#1B5FAA"/></linearGradient>
+          <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#FFE066"/><stop offset="100%" style="stop-color:#F5821F"/></linearGradient>
+          <filter id="sh"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000" flood-opacity=".25"/></filter>
+          <filter id="gl"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <g transform="translate(28,18)" filter="url(#sh)">
+          <path d="M62 6C62 6 20 54 20 86C20 112 39 132 62 132C85 132 104 112 104 86C104 54 62 6 62 6Z" fill="url(#dg)"/>
+          <path d="M62 6C62 6 38 54 38 86C38 98 43 110 51 119C36 111 20 100 20 86C20 54 62 6 62 6Z" fill="white" opacity=".18"/>
+          <ellipse cx="45" cy="68" rx="5" ry="8" fill="white" opacity=".3" transform="rotate(-20,45,68)"/>
+          <polygon points="68,30 47,78 64,78 55,118 84,62 66,62 78,30" fill="url(#bg)" filter="url(#gl)"/>
+        </g>
+        <text x="148" y="90" font-family="'Arial Black',Arial,sans-serif" font-weight="900" font-size="72" fill="#FFFFFF" letter-spacing="3">BABA</text>
+        <text x="150" y="124" font-family="Arial,sans-serif" font-weight="700" font-size="22" fill="#FFFFFF" letter-spacing="6">ENGINEERING</text>
+        <text x="368" y="124" font-family="Arial,sans-serif" font-weight="700" font-size="22" fill="#F5A020" letter-spacing="5">SOLUTIONS</text>
+        <text x="150" y="152" font-family="Arial,sans-serif" font-weight="600" font-size="12" fill="rgba(255,255,255,0.75)" letter-spacing="5">WATER  ·  POWER  ·  CIVIL</text>
+      </svg>
+    </a>
+    <div class="hidden lg:flex items-center gap-7">
+      <a href="#index.html" class="nav-link text-white font-medium text-sm hover:text-gold-400 transition-colors">Home</a>
+      <a href="index.html#about" class="nav-link text-white font-medium text-sm hover:text-gold-400 transition-colors">About</a>
+      <div class="dropdown-parent relative">
+        <button class="nav-link text-white font-medium text-sm hover:text-gold-400 transition-colors flex items-center gap-1">Services <svg class="w-3.5 h-3.5 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+        <div class="dropdown-menu absolute top-full left-1/2 mt-3 w-[580px] bg-white rounded-2xl shadow-2xl p-5 grid grid-cols-2 gap-2 border border-gray-100">
+          <div class="col-span-2 border-b border-gray-100 pb-3 mb-1 text-xs font-mono text-forest-500 tracking-widest uppercase px-1">Our Services</div>
+          <a href="index.html#services" class="flex items-start gap-3 p-3 rounded-xl hover:bg-forest-600/5 group transition-colors"><span class="text-2xl">⛏</span><div><div class="font-semibold text-forest-800 text-sm group-hover:text-forest-600">Borehole Drilling</div><div class="text-xs text-gray-400">Drilling, Casing, Installation</div></div></a>
+          <a href="index.html#services" class="flex items-start gap-3 p-3 rounded-xl hover:bg-forest-600/5 group transition-colors"><span class="text-2xl">☀️</span><div><div class="font-semibold text-forest-800 text-sm group-hover:text-forest-600">Solar Pump Systems</div><div class="text-xs text-gray-400">Submersible, Surface, Off-grid</div></div></a>
+          <a href="index.html#services" class="flex items-start gap-3 p-3 rounded-xl hover:bg-forest-600/5 group transition-colors"><span class="text-2xl">💧</span><div><div class="font-semibold text-forest-800 text-sm group-hover:text-forest-600">Irrigation Systems</div><div class="text-xs text-gray-400">Drip, Sprinkler, Surface</div></div></a>
+          <a href="index.html#services" class="flex items-start gap-3 p-3 rounded-xl hover:bg-forest-600/5 group transition-colors"><span class="text-2xl">🏗</span><div><div class="font-semibold text-forest-800 text-sm group-hover:text-forest-600">Water Storage Tanks</div><div class="text-xs text-gray-400">Plastic, Concrete, Any size</div></div></a>
+          <a href="index.html#services" class="flex items-start gap-3 p-3 rounded-xl hover:bg-forest-600/5 group transition-colors"><span class="text-2xl">⚙️</span><div><div class="font-semibold text-forest-800 text-sm group-hover:text-forest-600">Water Pumps</div><div class="text-xs text-gray-400">Submersible, Centrifugal, Booster</div></div></a>
+          <a href="index.html#services" class="flex items-start gap-3 p-3 rounded-xl hover:bg-forest-600/5 group transition-colors"><span class="text-2xl">🏢</span><div><div class="font-semibold text-forest-800 text-sm group-hover:text-forest-600">Civil Construction</div><div class="text-xs text-gray-400">Residential, Commercial, Industrial</div></div></a>
+        </div>
+      </div>
+      <a href="index.html#projects" class="nav-link text-white font-medium text-sm hover:text-gold-400 transition-colors">Solutions</a>
+       <a href="projects.html" class="nav-link text-white font-medium text-sm hover:text-gold-400 transition-colors">Projects</a>
+     
+     
+      <a href="index.html#testimonials" class="nav-link text-white font-medium text-sm hover:text-gold-400 transition-colors">Reviews</a>
+      <a href="blog.html" class="nav-link text-white font-medium text-sm hover:text-gold-400 transition-colors">Blog</a>
+      <a href="index.html#contact" class="nav-link text-white font-medium text-sm hover:text-gold-400 transition-colors">Contact</a>
+    </div>
+    <div class="hidden lg:flex items-center gap-3">
+      <a href="tel:+256793173477" class="text-gold-400 font-mono text-xs tracking-wide hover:text-gold-300 transition-colors">0793 173 477</a>
+      <a href="index.html#contact" class="bg-gold-400 hover:bg-gold-300 text-forest-900 font-bold text-sm px-5 py-2.5 rounded-xl transition-all hover:shadow-lg hover:shadow-gold-400/30 hover:-translate-y-0.5">Get a Quote</a>
+    </div>
+    <button id="hamburger" class="lg:hidden text-white p-2" aria-label="Toggle menu">
+      <div id="h1" class="w-6 h-0.5 bg-white mb-1.5 transition-all duration-300 rounded"></div>
+      <div id="h2" class="w-6 h-0.5 bg-white mb-1.5 transition-all duration-300 rounded"></div>
+      <div id="h3" class="w-6 h-0.5 bg-white transition-all duration-300 rounded"></div>
+    </button>
+  </div>
+  <div id="mobile-menu" class="lg:hidden bg-forest-900/98 backdrop-blur-sm mt-2 rounded-2xl overflow-hidden">
+    <div class="p-5 space-y-1">
+      <a href="index.html" class="block py-3 px-4 text-white font-medium rounded-xl hover:bg-forest-700 transition-colors">Home</a>
+      <a href="index.html#about" class="block py-3 px-4 text-white font-medium rounded-xl hover:bg-forest-700 transition-colors">About</a>
+      <div>
+        <button id="mob-svc-btn" class="w-full flex items-center justify-between py-3 px-4 text-white font-medium rounded-xl hover:bg-forest-700 transition-colors">Services <svg id="mob-arrow" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+        <div id="mob-svc-panel" class="hidden pl-4 space-y-1 mt-1">
+          <a href="index.html#services" class="block py-2 px-4 text-forest-300 text-sm rounded-xl hover:bg-forest-700 hover:text-white transition-colors">⛏ Borehole Drilling</a>
+          <a href="index.html#services" class="block py-2 px-4 text-forest-300 text-sm rounded-xl hover:bg-forest-700 hover:text-white transition-colors">☀️ Solar Pump Systems</a>
+          <a href="index.html#services" class="block py-2 px-4 text-forest-300 text-sm rounded-xl hover:bg-forest-700 hover:text-white transition-colors">💧 Irrigation Systems</a>
+          <a href="index.html#services" class="block py-2 px-4 text-forest-300 text-sm rounded-xl hover:bg-forest-700 hover:text-white transition-colors">🏗 Water Storage Tanks</a>
+          <a href="index.html#services" class="block py-2 px-4 text-forest-300 text-sm rounded-xl hover:bg-forest-700 hover:text-white transition-colors">⚙️ Water Pumps</a>
+          <a href="index.html#services" class="block py-2 px-4 text-forest-300 text-sm rounded-xl hover:bg-forest-700 hover:text-white transition-colors">🏢 Civil Construction</a>
+        </div>
+      </div>
+      <a href="index.html#projects" class="block py-3 px-4 text-white font-medium rounded-xl hover:bg-forest-700 transition-colors">Solutions</a>
+      <a href="projects.html" class="block py-3 px-4 text-gold-400 font-semibold rounded-xl bg-forest-700/50">Projects</a>
+      <a href="index.html#testimonials" class="block py-3 px-4 text-white font-medium rounded-xl hover:bg-forest-700 transition-colors">Reviews</a>
+      <a href="blog.html" class="block py-3 px-4 text-white font-medium rounded-xl hover:bg-forest-700 transition-colors">Blog</a>
+      <a href="index.html#contact" class="block py-3 px-4 text-white font-medium rounded-xl hover:bg-forest-700 transition-colors">Contact</a>
+      <a href="index.html#contact" class="block mt-2 py-3 px-4 bg-gold-400 text-forest-900 font-bold text-center rounded-xl">Get a Quote →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="ph-bg">
+    <img src="assets/images/drilling.jpg" alt="Baba Engineering projects" onerror="this.src='assets/images/driill.png'"/>
+  </div>
+  <div class="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 w-full pb-14">
+    <div class="flex items-center gap-2 font-mono text-xs text-white/35 mb-5">
+      <a href="index.html" class="hover:text-white/70 transition-colors">Home</a>
+      <span class="text-white/20">/</span>
+      <span class="text-gold-300/80">Projects</span>
+    </div>
+    <div class="max-w-2xl">
+      <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-[1.08] mb-5">
+        Work that speaks<br/><span class="text-gold-300">for itself.</span>
+      </h1>
+      <p class="text-white/65 text-base sm:text-lg leading-relaxed max-w-xl">
+        Real projects, real places — farms producing more, schools with clean water, communities no longer walking miles to a well.
+      </p>
+      <div class="flex flex-wrap gap-8 mt-10 pt-7 border-t border-white/10">
+        <div><div class="font-display font-black text-white text-3xl">50<span class="text-gold-400">+</span></div><div class="text-white/40 text-xs font-mono mt-1 uppercase tracking-widest">Projects</div></div>
+        <div><div class="font-display font-black text-white text-3xl">500<span class="text-gold-400">+</span></div><div class="text-white/40 text-xs font-mono mt-1 uppercase tracking-widest">Clients</div></div>
+        <div><div class="font-display font-black text-white text-3xl">20</div><div class="text-white/40 text-xs font-mono mt-1 uppercase tracking-widest">Districts</div></div>
+        <div><div class="font-display font-black text-white text-3xl">2<span class="text-gold-400">+</span></div><div class="text-white/40 text-xs font-mono mt-1 uppercase tracking-widest">Years</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main>
+
+<!-- ══ WATER INFRASTRUCTURE ══ (white bg) -->
+<section class="py-16 sm:py-22 bg-white">
+  <div class="max-w-7xl mx-auto px-5 sm:px-6" style="padding-top:5rem;padding-bottom:5rem">
+    <div class="reveal mb-10">
+      <div class="stag stag-green mb-3">Water Infrastructure</div>
+      <h2 class="font-display text-2xl sm:text-3xl font-bold text-gray-900">Boreholes, Tanks &amp; Pumping Systems</h2>
+      <p class="text-gray-400 text-sm mt-2 max-w-lg">Clean water where it's needed — from a single family borehole to a full campus distribution network.</p>
+    </div>
+
+    <!-- Bento grid row 1: big left + two stacked right -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5 mb-4 sm:mb-5">
+      <a href="index.html#contact" class="pcard lg:col-span-7 reveal" style="height:400px">
+        <img src="assets/images/drilling.jpg" alt="Borehole Drilling" onerror="this.src='assets/images/driill.png'"/>
+        <div class="pcard-ov"></div>
+        <div class="pcard-body">
+          <span class="ptag bg-sky-400/15 text-sky-200 border-sky-400/25">Borehole Drilling</span>
+          <h3 class="font-display font-bold text-white text-xl sm:text-2xl leading-snug mb-2">Deep Borehole Installation</h3>
+          <p class="text-white/65 text-sm leading-relaxed mb-3">Professional rotary drilling, PVC casing and pump commissioning. Serving farms, schools and communities across 20+ districts.</p>
+          <div class="flex items-center gap-1.5 text-gold-300 text-xs font-semibold">Get a quote <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></div>
+        </div>
+      </a>
+      <div class="lg:col-span-5 flex flex-col gap-4 sm:gap-5">
+        <a href="index.html#contact" class="pcard reveal d1" style="height:192px">
+          <img src="assets/images/school-tank.jpg" alt="School water tank" onerror="this.src='assets/images/water-tank.png'"/>
+          <div class="pcard-ov"></div>
+          <div class="pcard-body">
+            <span class="ptag bg-teal-400/15 text-teal-200 border-teal-400/25">Water Storage</span>
+            <h3 class="font-display font-bold text-white text-lg">School Water Tank &amp; Distribution</h3>
+            <p class="text-white/55 text-xs mt-1">Campus pipework delivering clean water to every block, every day.</p>
+          </div>
+        </a>
+        <a href="index.html#contact" class="pcard reveal d2" style="height:192px">
+          <img src="assets/images/smart-tank.jpg" alt="Community water tank" onerror="this.src='assets/images/water-tank.png'"/>
+          <div class="pcard-ov"></div>
+          <div class="pcard-body">
+            <span class="ptag bg-cyan-400/15 text-cyan-200 border-cyan-400/25">Community Water</span>
+            <h3 class="font-display font-bold text-white text-lg">Community Kiosk Network</h3>
+            <p class="text-white/55 text-xs mt-1">One borehole, one tank, five kiosks — a whole sub-county served.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Bento grid row 2: wide + medium + small -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4 sm:gap-5">
+      <a href="index.html#contact" class="pcard sm:col-span-2 lg:col-span-5 reveal" style="height:220px">
+        <img src="assets/images/boreholes.jpg" alt="Multiple boreholes" onerror="this.src='assets/images/borehole.jpg'"/>
+        <div class="pcard-ov"></div>
+        <div class="pcard-body">
+          <span class="ptag bg-emerald-400/15 text-emerald-200 border-emerald-400/25">Multi-Site</span>
+          <h3 class="font-display font-bold text-white text-lg">Borehole Infrastructure — Multi-Site</h3>
+          <p class="text-white/60 text-sm mt-1">Simultaneous drilling across multiple district sites.</p>
+        </div>
+      </a>
+      <a href="index.html#contact" class="pcard lg:col-span-4 reveal d1" style="height:220px">
+        <img src="assets/images/pumping.png" alt="Water pumps"/>
+        <div class="pcard-ov"></div>
+        <div class="pcard-body">
+          <span class="ptag bg-orange-400/15 text-orange-200 border-orange-400/25">Water Pumps</span>
+          <h3 class="font-display font-bold text-white text-lg">Pump Supply &amp; Servicing</h3>
+          <p class="text-white/60 text-sm mt-1">Submersible, centrifugal and booster pumps — supply, install, maintain.</p>
+        </div>
+      </a>
+      <a href="index.html#contact" class="pcard lg:col-span-3 reveal d2" style="height:220px">
+        <img src="assets/images/wpump.png" alt="Water pump system"/>
+        <div class="pcard-ov"></div>
+        <div class="pcard-body">
+          <span class="ptag bg-blue-400/15 text-blue-200 border-blue-400/25">Pump Systems</span>
+          <h3 class="font-display font-bold text-white text-base">Pump Installation &amp; Repairs</h3>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SOLAR — warm tinted background for contrast ══ -->
+<section style="background:#fffbf0;padding:5rem 0">
+  <div class="max-w-7xl mx-auto px-5 sm:px-6">
+    <div class="reveal mb-10">
+      <div class="stag stag-amber mb-3">Solar Energy</div>
+      <h2 class="font-display text-2xl sm:text-3xl font-bold text-gray-900">Solar Pump Systems</h2>
+      <p class="text-gray-400 text-sm mt-2 max-w-lg">Off-grid solar pumping that runs on Uganda's sunshine — zero fuel costs, zero downtime.</p>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5">
+      <a href="index.html#contact" class="pcard lg:col-span-7 reveal" style="height:380px">
+        <img src="assets/images/solarcheck.png" alt="Solar pump system" onerror="this.src='assets/images/solar.png'"/>
+        <div class="pcard-ov"></div>
+        <div class="pcard-body">
+          <span class="ptag bg-amber-400/20 text-amber-200 border-amber-400/30">Solar Systems</span>
+          <h3 class="font-display font-bold text-white text-xl sm:text-2xl mb-2">Solar Pump System Installation</h3>
+          <p class="text-white/65 text-sm leading-relaxed mb-4">High-efficiency submersible and surface pumps powered entirely by solar. Reliable even in the dry season — no fuel, no generator noise, no monthly bills.</p>
+          <div class="flex flex-wrap gap-3">
+            <div class="bg-white/10 backdrop-blur-sm rounded-xl px-3 py-2 text-center"><div class="text-white font-bold text-sm">Zero</div><div class="text-white/45 text-xs font-mono">Fuel cost</div></div>
+            <div class="bg-white/10 backdrop-blur-sm rounded-xl px-3 py-2 text-center"><div class="text-white font-bold text-sm">365 days</div><div class="text-white/45 text-xs font-mono">Reliable</div></div>
+            <div class="bg-white/10 backdrop-blur-sm rounded-xl px-3 py-2 text-center"><div class="text-white font-bold text-sm">Low</div><div class="text-white/45 text-xs font-mono">Maintenance</div></div>
+          </div>
+        </div>
+      </a>
+      <div class="lg:col-span-5 flex flex-col gap-4 sm:gap-5">
+        <a href="index.html#contact" class="pcard reveal d1" style="height:183px">
+          <img src="assets/images/solar.png" alt="Solar panels"/>
+          <div class="pcard-ov"></div>
+          <div class="pcard-body">
+            <span class="ptag bg-yellow-400/20 text-yellow-100 border-yellow-400/25">Rural Off-Grid</span>
+            <h3 class="font-display font-bold text-white text-lg">Rural Community Solar Borehole</h3>
+            <p class="text-white/55 text-xs mt-1">Year-round clean water in Lira — no fuel, no operator, no cost.</p>
+          </div>
+        </a>
+        <a href="index.html#contact" class="pcard reveal d2" style="height:183px">
+          <img src="assets/images/s.jpeg" alt="Solar pump"/>
+          <div class="pcard-ov"></div>
+          <div class="pcard-body">
+            <span class="ptag bg-lime-400/15 text-lime-200 border-lime-400/25">School Solar</span>
+            <h3 class="font-display font-bold text-white text-lg">School Solar Water System</h3>
+            <p class="text-white/55 text-xs mt-1">600 pupils — clean water daily — zero grid connection needed.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ AGRICULTURE — white background ══ -->
+<section style="background:#fff;padding:5rem 0">
+  <div class="max-w-7xl mx-auto px-5 sm:px-6">
+    <div class="reveal mb-10">
+      <div class="stag stag-blue mb-3">Agriculture</div>
+      <h2 class="font-display text-2xl sm:text-3xl font-bold text-gray-900">Irrigation Systems</h2>
+      <p class="text-gray-400 text-sm mt-2 max-w-lg">Three harvests a year where there used to be one — drip, sprinkler or surface, we design it right.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+      <a href="index.html#contact" class="pcard reveal" style="height:360px">
+        <img src="assets/images/irrigation.png" alt="Farm irrigation"/>
+        <div class="pcard-ov"></div>
+        <div class="pcard-body">
+          <span class="ptag bg-blue-400/15 text-blue-200 border-blue-400/25">Drip Irrigation</span>
+          <h3 class="font-display font-bold text-white text-xl sm:text-2xl mb-2">Commercial Farm — Drip &amp; Sprinkler</h3>
+          <p class="text-white/65 text-sm leading-relaxed">15 acres in Nwoya. Three harvests a year. Water usage down 40%. The farmer called it the best investment he's ever made.</p>
+          <div class="flex flex-wrap gap-2 mt-4">
+            <span class="bg-white/10 text-white/75 text-xs rounded-xl px-3 py-1.5">📍 Nwoya District</span>
+            <span class="bg-white/10 text-white/75 text-xs rounded-xl px-3 py-1.5">15 acres</span>
+            <span class="bg-white/10 text-white/75 text-xs rounded-xl px-3 py-1.5">3× harvests/year</span>
+          </div>
+        </div>
+      </a>
+      <!-- White story card for contrast -->
+      <div class="scard reveal d1 flex flex-col" style="height:360px">
+        <div class="scard-img" style="height:200px;flex-shrink:0">
+          <img src="assets/images/irrigation.png" alt="Greenhouse drip irrigation"/>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between">
+          <div>
+            <span class="inline-block bg-blue-50 text-blue-700 text-xs font-mono tracking-widest px-3 py-1 rounded-full mb-3">Greenhouse Drip</span>
+            <h3 class="font-display font-bold text-gray-900 text-lg mb-2">Greenhouse Precision Drip — Mukono</h3>
+            <p class="text-gray-500 text-sm leading-relaxed">Two acres of high-value export vegetables. Precision drip delivering exactly the right amount of water to every row — no over-watering, no dry-season stops.</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-4 mt-4 pt-4 border-t border-gray-100">
+            <div><div class="font-bold text-gray-900 text-sm">40%</div><div class="text-xs text-gray-400 font-mono">Less water</div></div>
+            <div><div class="font-bold text-gold-500 text-sm">3× yield</div><div class="text-xs text-gray-400 font-mono">Increase</div></div>
+            <a href="index.html#contact" class="ml-auto text-forest-600 font-semibold text-sm hover:text-forest-800 transition-colors flex items-center gap-1">Inquire <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CIVIL CONSTRUCTION — dark for contrast ══ -->
+<section style="background:#0f1a14;padding:5rem 0">
+  <div class="max-w-7xl mx-auto px-5 sm:px-6">
+    <div class="reveal mb-10">
+      <div class="stag stag-slate mb-3">Civil Construction</div>
+      <h2 class="font-display text-2xl sm:text-3xl font-bold text-white">Building Work that Lasts</h2>
+      <p style="color:#6b7280" class="text-sm mt-2 max-w-lg">From foundations to full finish — residential and commercial construction delivered on time.</p>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5">
+      <a href="index.html#contact" class="pcard lg:col-span-5 reveal" style="height:380px">
+        <img src="assets/images/construction.png" alt="Civil construction"/>
+        <div class="pcard-ov"></div>
+        <div class="pcard-body">
+          <span class="ptag bg-rose-400/15 text-rose-200 border-rose-400/25">Residential</span>
+          <h3 class="font-display font-bold text-white text-xl mb-2">4-Unit Residential Development — Wakiso</h3>
+          <p class="text-white/65 text-sm leading-relaxed">Foundation to full finish in five months. All four units tenanted within six weeks of handover. The client came back with phase two before we'd packed up the site.</p>
+          <div class="flex flex-wrap gap-2 mt-4">
+            <span class="bg-white/10 text-white/70 text-xs rounded-xl px-3 py-1.5">📍 Wakiso</span>
+            <span class="bg-white/10 text-white/70 text-xs rounded-xl px-3 py-1.5">4 units</span>
+            <span class="bg-white/10 text-white/70 text-xs rounded-xl px-3 py-1.5">5 months</span>
+          </div>
+        </div>
+      </a>
+      <div class="lg:col-span-4 flex flex-col gap-4 sm:gap-5">
+        <a href="index.html#contact" class="pcard reveal d1" style="height:180px">
+          <img src="assets/images/building.png" alt="Commercial building"/>
+          <div class="pcard-ov"></div>
+          <div class="pcard-body">
+            <span class="ptag bg-slate-400/15 text-slate-200 border-slate-400/25">Commercial</span>
+            <h3 class="font-display font-bold text-white text-lg">Commercial Office Block</h3>
+            <p class="text-white/55 text-xs mt-1">Designed, built and handed over ahead of schedule.</p>
+          </div>
+        </a>
+        <!-- Dark info card — no border -->
+        <div class="rounded-3xl p-6 reveal d2" style="background:#1a2e20;height:180px;display:flex;flex-direction:column;justify-content:space-between">
+          <div class="font-display font-bold text-white text-lg leading-snug">Built right.<br/>Built to last.</div>
+          <p style="color:#5cb885;font-size:.82rem;line-height:1.6">Every project carries full QA from foundation pour to final handover. No shortcuts.</p>
+        </div>
+      </div>
+      <!-- Stats panel -->
+      <div class="lg:col-span-3 rounded-3xl p-6 reveal d3 flex flex-col justify-between" style="background:#1a2e20;min-height:280px">
+        <div>
+          <div style="color:#5cb885;font-size:.65rem;font-family:'Space Mono',monospace;letter-spacing:.15em;text-transform:uppercase;margin-bottom:.5rem">Track record</div>
+          <div class="font-display font-black text-white text-4xl mb-1">100%</div>
+          <div style="color:#9ca3af;font-size:.82rem">On-time delivery across all projects completed to date</div>
+        </div>
+        <div class="space-y-3 mt-6">
+          <div class="flex justify-between text-sm"><span style="color:#5cb885">Residential</span><span class="text-white font-semibold">Homes &amp; Estates</span></div>
+          <div class="flex justify-between text-sm"><span style="color:#5cb885">Commercial</span><span class="text-white font-semibold">Offices &amp; Retail</span></div>
+          <div class="flex justify-between text-sm"><span style="color:#5cb885">Industrial</span><span class="text-white font-semibold">Warehouses</span></div>
+        </div>
+        <a href="index.html#contact" class="mt-6 inline-flex items-center justify-center gap-2 bg-gold-400 hover:bg-gold-300 text-gray-900 font-bold px-5 py-3 rounded-xl transition-all text-sm">
+          Get a Quote →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ IN PROGRESS — stone background ══ -->
+<section style="background:#f0ede6;padding:5rem 0">
+  <div class="max-w-7xl mx-auto px-5 sm:px-6">
+    <div class="reveal mb-10">
+      <div class="stag stag-green mb-3">In Progress</div>
+      <h2 class="font-display text-2xl sm:text-3xl font-bold text-gray-900">What we're working on now</h2>
+      <p class="text-gray-400 text-sm mt-2 max-w-lg">We finish faster than we document. Full case pages published once each project wraps up.</p>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="scard reveal">
+        <div class="scard-img relative">
+          <img src="assets/images/school-tank.jpg" alt="School tank" onerror="this.src='assets/images/water-tank.png'"/>
+          <div class="absolute top-3 right-3 flex items-center gap-1.5 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-mono font-semibold text-emerald-700">
+            <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>In Progress
+          </div>
+        </div>
+        <div class="p-5 sm:p-6">
+          <span class="inline-block bg-sky-50 text-sky-700 text-xs font-mono tracking-widest px-3 py-1 rounded-full mb-3">Water Infrastructure</span>
+          <h3 class="font-display font-bold text-gray-900 text-base sm:text-lg mb-2">School Water Tank &amp; Distribution</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">Elevated tank and full campus pipework for a primary school — every block, kitchen and sanitation covered.</p>
+        </div>
+      </div>
+      <div class="scard reveal d1">
+        <div class="scard-img relative">
+          <img src="assets/images/smart-tank.jpg" alt="Community tank" onerror="this.src='assets/images/water-tank.png'"/>
+          <div class="absolute top-3 right-3 flex items-center gap-1.5 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-mono font-semibold text-emerald-700">
+            <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>In Progress
+          </div>
+        </div>
+        <div class="p-5 sm:p-6">
+          <span class="inline-block bg-teal-50 text-teal-700 text-xs font-mono tracking-widest px-3 py-1 rounded-full mb-3">Community Water</span>
+          <h3 class="font-display font-bold text-gray-900 text-base sm:text-lg mb-2">Kiosk Network — Masaka</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">One borehole, five kiosks across 3 km — a whole sub-county getting metered, clean water for the first time.</p>
+        </div>
+      </div>
+      <!-- CTA card -->
+      <div class="rounded-3xl p-7 sm:p-8 flex flex-col justify-between reveal d2" style="background:#0a2416;min-height:300px">
+        <div>
+          <div class="w-11 h-11 rounded-2xl flex items-center justify-center mb-5" style="background:rgba(245,166,35,.12)">
+            <svg class="w-5 h-5" style="color:#f5a623" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+          </div>
+          <h3 class="font-display font-bold text-white text-xl mb-3 leading-snug">Your project could be next.</h3>
+          <p style="color:#5cb885;font-size:.85rem;line-height:1.7">Free site assessment. No pressure. Just an honest conversation about what you need and whether we can deliver.</p>
+        </div>
+        <a href="index.html#contact" class="mt-6 inline-flex items-center gap-2 bg-gold-400 hover:bg-gold-300 text-gray-900 font-bold px-6 py-3 rounded-xl transition-all text-sm hover:-translate-y-0.5">
+          Get a Free Quote <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FINAL CTA ══ -->
+<section style="background:#fff;padding:5rem 0">
+  <div class="max-w-5xl mx-auto px-5 sm:px-6 text-center reveal">
+    <div class="stag stag-green justify-center mb-5" style="justify-content:center">Work With Us</div>
+    <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 leading-tight mb-5">
+      Have a project in mind?
+    </h2>
+    <p class="text-gray-400 text-base sm:text-lg mb-9 max-w-xl mx-auto leading-relaxed">We've worked across every region of Uganda. Water, solar, irrigation or construction — the first conversation is always free.</p>
+    <div class="flex flex-wrap gap-4 justify-center">
+      <a href="index.html#contact" class="inline-flex items-center gap-2 bg-gold-400 hover:bg-gold-300 text-gray-900 font-bold px-8 py-4 rounded-xl transition-all hover:shadow-xl hover:shadow-gold-400/30 hover:-translate-y-1">
+        Get a Free Quote <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </a>
+      <a href="tel:+256793173477" class="inline-flex items-center gap-2 border-2 border-gray-200 text-gray-700 hover:border-forest-600 hover:text-forest-600 font-semibold px-8 py-4 rounded-xl transition-all">
+        📞 Call 0793 173 477
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-forest-900 text-white pt-14 pb-8">
+  <div class="max-w-7xl mx-auto px-5 sm:px-6">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 sm:gap-12 mb-12">
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 180" class="h-10 w-auto mb-4">
+          <defs><linearGradient id="fdg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#7DD6FF"/><stop offset="50%" style="stop-color:#3A9FE8"/><stop offset="100%" style="stop-color:#1B5FAA"/></linearGradient><linearGradient id="fbg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#FFE066"/><stop offset="100%" style="stop-color:#F5821F"/></linearGradient></defs>
+          <g transform="translate(28,18)"><path d="M62 6C62 6 20 54 20 86C20 112 39 132 62 132C85 132 104 112 104 86C104 54 62 6 62 6Z" fill="url(#fdg)"/><polygon points="68,30 47,78 64,78 55,118 84,62 66,62 78,30" fill="url(#fbg)"/></g>
+          <text x="148" y="90" font-family="'Arial Black',Arial,sans-serif" font-weight="900" font-size="72" fill="#FFFFFF" letter-spacing="3">BABA</text>
+          <text x="150" y="124" font-family="Arial,sans-serif" font-weight="700" font-size="22" fill="#FFFFFF" letter-spacing="6">ENGINEERING</text>
+          <text x="368" y="124" font-family="Arial,sans-serif" font-weight="700" font-size="22" fill="#F5A020" letter-spacing="5">SOLUTIONS</text>
+        </svg>
+        <p class="text-forest-300 text-sm leading-relaxed mb-5">Sustainable water, power and civil engineering across Uganda. Built on trust, driven by excellence.</p>
+        <div class="flex gap-2.5">
+          <a href="#" class="w-9 h-9 bg-forest-700 hover:bg-gold-400 rounded-lg flex items-center justify-center text-white hover:text-forest-900 transition-all"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+          <a href="https://wa.me/256793173477" target="_blank" class="w-9 h-9 bg-forest-700 hover:bg-[#25D366] rounded-lg flex items-center justify-center text-white transition-all"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h4 class="font-display font-bold text-gold-400 text-lg mb-4">Quick Links</h4>
+        <ul class="space-y-2.5">
+          <li><a href="index.html" class="text-forest-300 hover:text-white transition-colors text-sm flex items-center gap-2"><span class="text-gold-400 text-xs">→</span> Home</a></li>
+          <li><a href="index.html#about" class="text-forest-300 hover:text-white transition-colors text-sm flex items-center gap-2"><span class="text-gold-400 text-xs">→</span> About Us</a></li>
+          <li><a href="index.html#services" class="text-forest-300 hover:text-white transition-colors text-sm flex items-center gap-2"><span class="text-gold-400 text-xs">→</span> Services</a></li>
+          <li><a href="projects.html" class="text-white text-sm flex items-center gap-2"><span class="text-gold-400 text-xs">→</span> All Projects</a></li>
+          <li><a href="blog.html" class="text-forest-300 hover:text-white transition-colors text-sm flex items-center gap-2"><span class="text-gold-400 text-xs">→</span> Blog</a></li>
+          <li><a href="index.html#contact" class="text-forest-300 hover:text-white transition-colors text-sm flex items-center gap-2"><span class="text-gold-400 text-xs">→</span> Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-display font-bold text-gold-400 text-lg mb-4">Services</h4>
+        <ul class="space-y-2.5">
+          <li><a href="index.html#services" class="text-forest-300 hover:text-white transition-colors text-sm flex items-center gap-2"><span class="text-gold-400 text-xs">→</span> Borehole Drilling</a></li>
+          <li><a href="index.html#services" class="text-forest-300 hover:text-white transition-colors text-sm flex items-center gap-2"><span class="text-gold-400 text-xs">→</span> Solar Pump Systems</a></li>
+          <li><a href="index.html#services" class="text-forest-300 hover:text-white transition-colors text-sm flex items-center gap-2"><span class="text-gold-400 text-xs">→</span> Irrigation Systems</a></li>
+          <li><a href="index.html#services" class="text-forest-300 hover:text-white transition-colors text-sm flex items-center gap-2"><span class="text-gold-400 text-xs">→</span> Water Storage Tanks</a></li>
+          <li><a href="index.html#services" class="text-forest-300 hover:text-white transition-colors text-sm flex items-center gap-2"><span class="text-gold-400 text-xs">→</span> Water Pumps</a></li>
+          <li><a href="index.html#services" class="text-forest-300 hover:text-white transition-colors text-sm flex items-center gap-2"><span class="text-gold-400 text-xs">→</span> Civil Construction</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-display font-bold text-gold-400 text-lg mb-4">Contact</h4>
+        <div class="space-y-3 text-sm mb-5">
+          <div class="flex items-center gap-2 text-forest-300"><svg class="w-4 h-4 text-gold-400 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg><a href="tel:+256793173477" class="hover:text-white transition-colors">0793 173 477</a></div>
+          <div class="flex items-center gap-2 text-forest-300"><svg class="w-4 h-4 text-gold-400 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><a href="mailto:info@babaengineering.com" class="hover:text-white transition-colors break-all">info@babaengineering.com</a></div>
+          <div class="flex items-start gap-2 text-forest-300"><svg class="w-4 h-4 text-gold-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Kampala, Uganda</div>
+        </div>
+        <a href="index.html#contact" class="inline-flex items-center gap-2 bg-gold-400 hover:bg-gold-300 text-forest-900 font-bold px-5 py-2.5 rounded-xl transition-all text-sm">Get a Free Quote →</a>
+      </div>
+    </div>
+    <div class="border-t border-forest-700 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm">
+      <div class="text-forest-400">© 2025 <span class="text-white">Baba Engineering Solutions</span>. All Rights Reserved.</div>
+      <div class="flex gap-5"><a href="#" class="text-forest-400 hover:text-white transition-colors">Privacy Policy</a><a href="#" class="text-orange-400 hover:text-white transition-colors">Powered by Diginex Technologies</a></div>
+    </div>
+  </div>
+</footer>
+
+<!-- WhatsApp float -->
+<a href="https://wa.me/256793173477?text=Hello%2C%20I'd%20like%20to%20inquire%20about%20Baba%20Engineering%20services." target="_blank" rel="noopener"
+   class="wa-float fixed bottom-24 right-4 sm:right-5 z-50 w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg shadow-green-500/40 hover:scale-110 transition-transform group" aria-label="Chat on WhatsApp">
+  <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  <div class="absolute right-16 bg-forest-900 text-white text-xs px-3 py-1.5 rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">Chat on WhatsApp</div>
+</a>
+<button id="back-top" class="fixed bottom-5 right-4 sm:right-5 z-50 w-12 h-12 bg-gray-900 hover:bg-gray-800 text-white rounded-full flex items-center justify-center shadow-lg hover:-translate-y-1 transition-all" aria-label="Back to top">
+  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+</button>
+
+<script>
+var _ld=false;
+function dismissLoader(){if(_ld)return;_ld=true;var l=document.getElementById('loader');if(l){l.classList.add('hide');setTimeout(function(){l.remove()},700)}}
+setTimeout(dismissLoader,2500);
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',function(){setTimeout(dismissLoader,800)})}else{setTimeout(dismissLoader,800)}
+var nb=document.getElementById('navbar');
+window.addEventListener('scroll',function(){nb.classList.toggle('scrolled',window.scrollY>70);nb.style.top=window.scrollY>70?'0':''});
+var ham=document.getElementById('hamburger'),mob=document.getElementById('mobile-menu'),mopen=false;
+ham.addEventListener('click',function(){mopen=!mopen;mob.classList.toggle('open',mopen);document.getElementById('h1').style.transform=mopen?'rotate(45deg) translate(5px,5px)':'';document.getElementById('h2').style.opacity=mopen?'0':'1';document.getElementById('h3').style.transform=mopen?'rotate(-45deg) translate(5px,-5px)':'';document.body.style.overflow=mopen?'hidden':''});
+var msb=document.getElementById('mob-svc-btn'),msp=document.getElementById('mob-svc-panel'),mar=document.getElementById('mob-arrow');
+msb.addEventListener('click',function(){msp.classList.toggle('hidden');mar.style.transform=msp.classList.contains('hidden')?'':'rotate(180deg)'});
+mob.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){mopen=false;mob.classList.remove('open');['h1','h2','h3'].forEach(function(id){var e=document.getElementById(id);e.style.transform='';e.style.opacity='1'});document.body.style.overflow=''})});
+var ro=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target)}})},{threshold:0.07,rootMargin:'0px 0px -50px 0px'});
+document.querySelectorAll('.reveal').forEach(function(el){ro.observe(el)});
+var bt=document.getElementById('back-top');
+window.addEventListener('scroll',function(){bt.classList.toggle('show',window.scrollY>400)});
+bt.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})});
+</script>
+</body>
+</html>
