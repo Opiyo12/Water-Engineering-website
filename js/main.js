@@ -12,8 +12,8 @@ const heroData = [
   { title: 'Borehole<br><span class="gold-text">Drilling</span>', sub: 'Professional drilling, casing, and pump installation. Reliable clean water access for farms, schools, and communities across Uganda.' },
   { title: 'Solar Pump<br><span class="gold-text">Systems</span>', sub: 'High-efficiency solar-powered water pumping — submersible and surface. Low-maintenance, off-grid, built to last.' },
   { title: 'Irrigation<br><span class="gold-text">Solutions</span>', sub: 'Drip, sprinkler, and surface irrigation systems. Maximising yields and conserving water for smallholder and commercial farms.' },
-  { title: 'Water Storage<br><span class="gold-text">Tanks</span>', sub: 'Supply and installation of plastic and concrete water storage tanks. From 500L domestic to 50,000L industrial capacities.' },
-  { title: 'Civil<br><span class="gold-text">Construction</span>', sub: 'Residential and commercial building construction with expert project management and quality materials.' },
+  { title: 'Water<br><span class="gold-text">Tanks</span>', sub: 'Supply and installation of plastic and concrete water storage tanks. From 500L domestic to 50,000L industrial capacities.' },
+  { title: 'Civil<br><span class="gold-text">Works</span>', sub: 'Residential and commercial building construction with expert project management and quality materials.' },
 ];
 
 const slideImgs = [

@@ -168,7 +168,7 @@ h3 { font-size: clamp(1.1rem, 2vw, 1.35rem); font-weight: 700; }
 .nav-link {
   position: relative; padding: 6px 13px;
   font-size: .88rem; font-weight: 500;
-  color: rgba(255,255,255,.88);
+  color:#1c2b22 !important;
   border-radius: var(--radius-sm);
   transition: var(--transition);
 }

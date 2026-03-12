@@ -87,7 +87,29 @@
     .nav-link { position:relative; transition:color .25s ease; }
     .nav-link::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:2px; background:#f5a623; transition:width .3s ease; border-radius:2px; }
     .nav-link:hover::after, .nav-link.active::after { width:100%; }
+/* ── NAVBAR ── */
+#navbar { transition:all .38s ease; }
+#navbar.scrolled { background:rgba(255,255,255,.97); backdrop-filter:blur(20px); box-shadow:0 2px 28px rgba(0,0,0,.09); }
+#navbar.scrolled .nav-link { color:#1c2b22 !important; }
+#navbar.scrolled .nav-link:hover { color:#1a5c38 !important; }
+#navbar.scrolled .nav-phone { color:#1a5c38 !important; }
+#navbar.scrolled .ham-bar { background:#1c2b22 !important; }
+#navbar.scrolled .get-quote-btn { background:#1a5c38; color:#fff; }
+#navbar.scrolled .get-quote-btn:hover { background:#145230; }
+.nav-link { position:relative; transition:color .25s ease; }
+.nav-link::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:2px; background:#f5a623; transition:width .3s ease; border-radius:2px; }
+.nav-link:hover::after, .nav-link.active::after { width:100%; }
 
+/* Dropdown */
+.dropdown-parent:hover .dropdown-menu { opacity:1; visibility:visible; transform:translateX(-50%) translateY(0); }
+.dropdown-menu { opacity:0; visibility:hidden; transform:translateX(-50%) translateY(10px); transition:all .3s ease; }
+
+/* Mobile menu — dark green panel so white text is always visible */
+#mobile-menu { max-height:0; overflow:hidden; transition:max-height .5s ease; }
+#mobile-menu.open { max-height:700px; }
+#mobile-menu .mob-link { display:block; padding:12px 16px; color:#ffffff; font-weight:500; border-radius:12px; transition:background .2s ease; font-size:14px; }
+#mobile-menu .mob-link:hover { background:rgba(255,255,255,.12); }
+#mobile-menu .mob-link.active { color:#f5a623; background:rgba(255,255,255,.08); }
     /* Dropdown */
     .dropdown-parent:hover .dropdown-menu { opacity:1; visibility:visible; transform:translateX(-50%) translateY(0); }
     .dropdown-menu { opacity:0; visibility:hidden; transform:translateX(-50%) translateY(10px); transition:all .3s ease; }
@@ -187,8 +209,8 @@
 <div class="bg-forest-900 text-white py-2 text-sm z-50 relative">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-2">
     <div class="flex items-center gap-5">
-      <a href="tel:+256793173477" class="flex items-center gap-2 hover:text-gold-400 transition-colors">
-        <svg class="w-3.5 h-3.5 text-gold-400 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+        <a href="tel:+256793173477" class="flex items-center gap-2 hover:text-gold-400 transition-colors">
+        <svg class="w-3.5 h-3.5 text-forest-600" fill="currentColor" viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
         0793 173 477
       </a>
       <a href="mailto:info@babaengineering.com" class="tb-hide hidden sm:flex items-center gap-2 hover:text-gold-400 transition-colors">
@@ -281,35 +303,32 @@
     </button>
   </div>
 
-  <!-- Mobile menu -->
-  <div id="mobile-menu" class="lg:hidden bg-forest-900/98 backdrop-blur-sm mt-2 rounded-2xl overflow-hidden">
-    <div class="p-5 space-y-1">
-      <a href="#home"  class="block py-3 px-4 text-white font-medium rounded-xl hover:bg-forest-700 transition-colors">Home</a>
-      <a href="#about" class="block py-3 px-4 text-white font-medium rounded-xl hover:bg-forest-700 transition-colors">About</a>
-      <div>
-        <button id="mob-svc-btn" class="w-full flex items-center justify-between py-3 px-4 text-white font-medium rounded-xl hover:bg-forest-700 transition-colors">
-          Services <svg id="mob-arrow" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-        </button>
-        <div id="mob-svc-panel" class="hidden pl-4 space-y-1 mt-1">
-          <a href="#services" class="block py-2 px-4 text-forest-300 text-sm rounded-xl hover:bg-forest-700 hover:text-white transition-colors">⛏ Borehole Drilling</a>
-          <a href="#services" class="block py-2 px-4 text-forest-300 text-sm rounded-xl hover:bg-forest-700 hover:text-white transition-colors">☀️ Solar Pump Systems</a>
-          <a href="#services" class="block py-2 px-4 text-forest-300 text-sm rounded-xl hover:bg-forest-700 hover:text-white transition-colors">💧 Irrigation Systems</a>
-          <a href="#services" class="block py-2 px-4 text-forest-300 text-sm rounded-xl hover:bg-forest-700 hover:text-white transition-colors">🏗 Water Storage Tanks</a>
-          <a href="#services" class="block py-2 px-4 text-forest-300 text-sm rounded-xl hover:bg-forest-700 hover:text-white transition-colors">⚙️ Water Pumps</a>
-          <a href="#services" class="block py-2 px-4 text-forest-300 text-sm rounded-xl hover:bg-forest-700 hover:text-white transition-colors">🏢 Civil Construction</a>
-        </div>
+ <!-- Mobile menu -->
+<div id="mobile-menu" class="lg:hidden bg-forest-900 mt-2 rounded-2xl overflow-hidden shadow-2xl">
+  <div class="p-4 space-y-1">
+    <a href="#home" class="block py-3 px-4 text-white font-medium rounded-xl hover:bg-forest-700 transition-colors text-sm">Home</a>
+    <a href="#about" class="block py-3 px-4 text-white font-medium rounded-xl hover:bg-forest-700 transition-colors text-sm">About</a>
+    <div>
+      <button id="mob-svc-btn" class="w-full flex items-center justify-between py-3 px-4 text-white font-medium rounded-xl hover:bg-forest-700 transition-colors text-sm">
+        Services <svg id="mob-arrow" class="w-4 h-4 transition-transform flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+      </button>
+      <div id="mob-svc-panel" class="hidden pl-4 space-y-1 mt-1">
+        <a href="#services" class="block py-2 px-4 text-forest-300 text-sm rounded-xl hover:bg-forest-700 hover:text-white transition-colors">⛏ Borehole Drilling</a>
+        <a href="#services" class="block py-2 px-4 text-forest-300 text-sm rounded-xl hover:bg-forest-700 hover:text-white transition-colors">☀️ Solar Pump Systems</a>
+        <a href="#services" class="block py-2 px-4 text-forest-300 text-sm rounded-xl hover:bg-forest-700 hover:text-white transition-colors">💧 Irrigation Systems</a>
+        <a href="#services" class="block py-2 px-4 text-forest-300 text-sm rounded-xl hover:bg-forest-700 hover:text-white transition-colors">🏗 Water Storage Tanks</a>
+        <a href="#services" class="block py-2 px-4 text-forest-300 text-sm rounded-xl hover:bg-forest-700 hover:text-white transition-colors">⚙️ Water Pumps</a>
+        <a href="#services" class="block py-2 px-4 text-forest-300 text-sm rounded-xl hover:bg-forest-700 hover:text-white transition-colors">🏢 Civil Construction</a>
       </div>
-      <a href="#projects"     class="block py-3 px-4 text-white font-medium rounded-xl hover:bg-forest-700 transition-colors">Solutions</a>
-      <a href="projects.html" class="nav-link text-gold-400 font-semibold text-sm active">Projects</a>
-      <a href="#testimonials" class="block py-3 px-4 text-white font-medium rounded-xl hover:bg-forest-700 transition-colors">Reviews</a>
-      <!-- ── ADDED: Blog link mobile ── -->
-      <a href="blog.html"     class="block py-3 px-4 text-white font-medium rounded-xl hover:bg-forest-700 transition-colors">Blog</a>
-      <a href="projects.html"     class="block py-3 px-4 text-white font-medium rounded-xl hover:bg-forest-700 transition-colors">Projects</a>
-      
-      <a href="#contact"      class="block py-3 px-4 text-white font-medium rounded-xl hover:bg-forest-700 transition-colors">Contact</a>
-      <a href="#contact"      class="block mt-2 py-3 px-4 bg-gold-400 text-forest-900 font-bold text-center rounded-xl">Get a Quote →</a>
     </div>
+    <a href="#projects" class="block py-3 px-4 text-white font-medium rounded-xl hover:bg-forest-700 transition-colors text-sm">Solutions</a>
+    <a href="projects.html" class="block py-3 px-4 text-white font-medium rounded-xl hover:bg-forest-700 transition-colors text-sm">Projects</a>
+    <a href="#testimonials" class="block py-3 px-4 text-white font-medium rounded-xl hover:bg-forest-700 transition-colors text-sm">Reviews</a>
+    <a href="blog.html" class="block py-3 px-4 text-white font-medium rounded-xl hover:bg-forest-700 transition-colors text-sm">Blog</a>
+    <a href="#contact" class="block py-3 px-4 text-white font-medium rounded-xl hover:bg-forest-700 transition-colors text-sm">Contact</a>
+    <a href="#contact" class="block mt-2 py-3 px-4 bg-gold-400 text-forest-900 font-bold text-center rounded-xl text-sm">Get a Quote →</a>
   </div>
+</div>
 </nav>
 <!-- ══════════ HERO ══════════ -->
 <section id="home" class="relative h-screen min-h-[600px] overflow-hidden">
@@ -991,8 +1010,8 @@ if (document.readyState === 'loading') {
 } else {
   setTimeout(dismissLoader, 800);
 }
-const heroData=[{title:'Borehole <span class="gold-text">Drilling</span>',sub:'Professional drilling, casing and pump installation. Reliable clean water access for farms, schools and communities across Uganda.'},{title:'Solar Pump <span class="gold-text">Systems</span>',sub:'High-efficiency solar-powered water pumping — submersible and surface. Off-grid, low-maintenance, built to last.'},{title:'Irrigation <span class="gold-text">Solutions</span>',sub:'Drip, sprinkler and surface irrigation for smallholder and commercial farms. Maximising yields while conserving water.'},{title:'Water Storage <span class="gold-text">Tanks</span>',sub:'Supply and installation of plastic and concrete water storage tanks from 500L domestic to 50,000L industrial capacity.'},{title:'Water <span class="gold-text">Pumps</span>',sub:'Supply, installation and servicing of submersible, centrifugal and booster pumps. Reliable water distribution for every need.'},{title:'Civil <span class="gold-text">Construction</span>',sub:'Residential and commercial building construction with professional project management, quality materials and timely delivery.'}];
-const slideImages=['assets/images/driill.png','assets/images/solarpump.png','assets/images/irrigation.png','assets/images/water-tank.png','assets/images/pump.png','assets/images/building.png'];
+const heroData=[{title:'Borehole <span class="gold-text">Drilling</span>',sub:'Professional drilling, casing and pump installation. Reliable clean water access for farms, schools and communities across Uganda.'},{title:'Solar <span class="gold-text">Installations</span>',sub:'High-efficiency solar-powered water pumping — submersible and surface. Off-grid, low-maintenance, built to last.'},{title:'Irrigation <span class="gold-text">Solutions</span>',sub:'Drip, sprinkler and surface irrigation for smallholder and commercial farms. Maximising yields while conserving water.'},{title:'Water  <span class="gold-text">Tanks</span>',sub:'Supply and installation of plastic and concrete water storage tanks from 500L domestic to 50,000L industrial capacity.'},{title:'Water <span class="gold-text">Pumps</span>',sub:'Supply, installation and servicing of submersible, centrifugal and booster pumps. Reliable water distribution for every need.'},{title:'Civil <span class="gold-text">Works</span>',sub:'Residential and commercial building construction with professional project management, quality materials and timely delivery.'}];
+const slideImages=['assets/images/driill.png','assets/images/solarcheck.png','assets/images/irrigation.png','assets/images/water-tank.png','assets/images/pump.png','assets/images/building.png'];
 let currentSlide=0,sliderTimer;
 const slidesEl=document.getElementById('hero-slides'),dotCont=document.getElementById('dot-container'),titleEl=document.getElementById('hero-title'),subEl=document.getElementById('hero-sub'),tagEl=document.getElementById('hero-tag'),btnsEl=document.getElementById('hero-btns'),currEl=document.getElementById('slide-current'),totalEl=document.getElementById('slide-total');
 slideImages.forEach((src,i)=>{const d=document.createElement('div');d.className='hero-slide'+(i===0?' active':'');d.innerHTML=`<img src="${src}" alt="slide ${i+1}" ${i===0?'loading="eager"':'loading="lazy"'} onerror="this.src='https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1600&q=80'"><div class="hero-overlay"></div>`;slidesEl.appendChild(d)});
